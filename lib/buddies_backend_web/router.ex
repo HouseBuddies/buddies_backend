@@ -21,10 +21,9 @@ defmodule BuddiesBackendWeb.Router do
       post "/sign_out", UserSessionController, :delete
     end
 
-    resources "/houses", HouseController, except: [:new, :edit]
-
     scope "/user" do
       get "/", UserController, :show
+      get "/:id/matches", UserHouseController, :show_user_matches
     end
 
     scope "/house" do
@@ -36,12 +35,12 @@ defmodule BuddiesBackendWeb.Router do
     end
 
     scope "/user_houses" do
-      get "/house_residents/:house_id", UserHouseController, :show_house_residents
-      get "/house_owner/:house_id", UserHouseController, :show_house_owner
-      get "/user_matches/:user_id", UserHouseController, :show_user_matches
       post "/", UserHouseController, :create # Match, Bookmark
       delete "/:id", UserHouseController, :delete
     end
+
+    get "/house_residents/:house_id", UserHouseController, :show_house_residents
+    get "/house_owner/:house_id", UserHouseController, :show_house_owner
   end
 
   # Enable LiveDashboard in development
