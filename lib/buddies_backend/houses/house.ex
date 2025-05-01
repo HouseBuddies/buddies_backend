@@ -1,9 +1,10 @@
 defmodule BuddiesBackend.Houses.House do
   use BuddiesBackend.Schema
   alias BuddiesBackend.Accounts.User
+  alias BuddiesBackend.Subscriptions.Subscription
 
   @required_fields ~w(rent rooms available_date address max_residents)a
-  @optional_fields ~w(tags likes)a
+  @optional_fields ~w(tags likes subscription_id)a
 
   schema "houses" do
     has_many :residents, User
@@ -14,6 +15,7 @@ defmodule BuddiesBackend.Houses.House do
     field :max_residents, :integer, default: 5
     field :tags, {:array, :string}, default: []
     field :likes, {:array, :string}, default: []
+    belongs_to :subscription, Subscription
 
     timestamps(type: :utc_datetime)
   end

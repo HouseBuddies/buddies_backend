@@ -53,7 +53,9 @@ defmodule BuddiesBackend.Houses do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_house(attrs \\ %{}, user_id) do
+  def create_house(attrs \\ %{}) do
+    user_id = Map.get(attrs, "owner_id", "")
+
     Repo.transaction(fn ->
       house =
         %House{}

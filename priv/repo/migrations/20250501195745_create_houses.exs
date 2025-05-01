@@ -11,6 +11,7 @@ defmodule BuddiesBackend.Repo.Migrations.CreateHouses do
       add :address, :string
       add :tags, {:array, :string}, default: []
       add :likes, {:array, :string}, default: []
+      add :subscription_id, references(:subscriptions, type: :binary_id, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)
     end

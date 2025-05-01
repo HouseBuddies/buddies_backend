@@ -2,7 +2,6 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
   alias BuddiesBackend.Accounts
   alias BuddiesBackend.Houses
   alias BuddiesBackend.Repo
-  alias BuddiesBackend.Houses.House
   alias BuddiesBackend.Houses.UserHouse
 
   @addresses File.read!("priv/fake/addresses.txt") |> String.split("\n")
@@ -33,7 +32,7 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
         "owner_id" => Enum.random(users).id
       }
 
-      case House.changeset(%House{}, attrs) |> Repo.insert() do
+      case Houses.create_house(attrs) do
         {:ok, house} ->
           Mix.shell().info("Created house: #{house.address} (#{house.rent})")
 

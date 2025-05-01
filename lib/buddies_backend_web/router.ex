@@ -41,6 +41,13 @@ defmodule BuddiesBackendWeb.Router do
 
     get "/house_residents/:house_id", UserHouseController, :show_house_residents
     get "/house_owner/:house_id", UserHouseController, :show_house_owner
+
+    get "/plan/:name", PlanController, :show
+
+    scope "/subscriptions" do
+      post "/", SubscriptionController, :create
+      delete "/:house_id", SubscriptionController, :delete
+    end
   end
 
   # Enable LiveDashboard in development
