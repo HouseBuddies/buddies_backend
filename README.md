@@ -1,18 +1,67 @@
-# BuddiesBackend
+[asdf-vm]: https://asdf-vm.com/
 
-To start your Phoenix server:
+# Buddies (backend ⚙️)
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Find your perfect house buddies! 🏠
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Setup and running 🚀
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### 🐳 Database (with docker)
 
-## Learn more
+For data persistence this project uses a PostgreSQL database. You should have
+PostgreSQL up and running.
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+If you want to setup the required database using docker containers you can
+easily do it with [docker-compose](https://docs.docker.com/compose/install/).
+
+Create and start the database containers. You should use `linux.yml` if running on Linux and `darwin.yml` if running on macOS.
+
+```
+cp .env.dev.sample .env.dev
+docker-compose -f docker-compose.dev.yml -f {linux,darwin}.yml up db
+```
+
+Start the previously created containers.
+
+```
+docker-compose -f docker-compose.dev.yml -f {linux,darwin}.yml start
+```
+
+Stop the containers.
+
+```
+docker-compose -f docker-compose.dev.yml -f {linux,darwin}.yml stop
+```
+
+Destroy the containers and volumes created.
+
+```
+docker-compose -f docker-compose.dev.yml -f {linux,darwin}.yml down -v
+```
+
+### 🐦‍🔥 Server
+
+The following software is required to be installed on your system:
+
+- [Erlang 26+](https://www.erlang.org/downloads)
+- [Elixir 1.17+](https://elixir-lang.org/install.html)
+
+We recommend using [asdf version manager][asdf-vm] to install and manage all
+the programming languages' requirements.
+
+Firstly, fetch all required dependencies:
+
+```
+mix deps.get
+```
+
+Secondly, setup the database:
+```
+mix ecto.setup
+```
+
+And lastly, run the application:
+```
+mix phx.server
+```
+

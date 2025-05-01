@@ -43,6 +43,24 @@ defmodule BuddiesBackendWeb do
 
       import Plug.Conn
 
+      def changeset_error_to_string(changeset) do
+        Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+          Enum.reduce(opts, msg, fn {key, value}, acc ->
+            String.replace(acc, "%{#{key}}", _to_string(value))
+          end)
+        end)
+        |> Enum.reduce("", fn {k, v}, acc ->
+          joined_errors = Enum.join(v, "; ")
+          "#{acc}#{k}: #{joined_errors}, "
+        end)
+      end
+
+      defp _to_string(val) when is_list(val) do
+        Enum.join(val, ",")
+      end
+
+      defp _to_string(val), do: to_string(val)
+
       unquote(verified_routes())
     end
   end

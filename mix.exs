@@ -41,7 +41,10 @@ defmodule BuddiesBackend.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.2"}
+      {:bandit, "~> 1.2"},
+      {:swoosh, "~> 1.7"},
+      {:bcrypt_elixir, "~> 3.3.1"},
+      {:hackney, "~> 1.9"}
     ]
   end
 
