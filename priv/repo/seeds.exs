@@ -8,7 +8,8 @@ defmodule BuddiesBackend.Repo.Seeds do
 
   def run do
     [
-      "accounts.exs"
+      "accounts.exs",
+      "houses.exs",
     ]
     |> Enum.each(fn file ->
       Code.require_file("#{@seeds_dir}/#{file}")
