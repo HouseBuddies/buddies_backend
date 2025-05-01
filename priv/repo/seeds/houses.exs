@@ -8,8 +8,6 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
   @addresses File.read!("priv/fake/addresses.txt") |> String.split("\n")
 
   def run do
-    houses = Houses.list_houses()
-    IO.inspect(houses)
     case Houses.list_houses() do
       [] ->
         seed_houses()

@@ -21,6 +21,8 @@ defmodule BuddiesBackendWeb.Router do
       post "/sign_out", UserSessionController, :delete
     end
 
+    resources "/houses", HouseController, except: [:new, :edit]
+
     scope "/user" do
       get "/", UserController, :show
     end

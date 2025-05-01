@@ -128,7 +128,6 @@ defmodule BuddiesBackend.Houses do
     House.changeset(house, attrs)
   end
 
-  alias BuddiesBackend.Houses.UserHouse
 
   @doc """
   Returns the list of user_houses.
