@@ -7,9 +7,6 @@ defmodule BuddiesBackendWeb.UserSessionController do
     %{"email" => email, "password" => password} = user_params
 
     if user = Accounts.get_user_by_email_and_password(email, password) do
-      # Update first login to false.
-      Accounts.update_user_first_login(user)
-
       token = Accounts.create_user_api_token(user)
 
       body =
@@ -17,7 +14,8 @@ defmodule BuddiesBackendWeb.UserSessionController do
           user: %{
             id: user.id,
             email: user.email,
-            token: token
+            token: token,
+            first_time_login: user.first_time_login,
           }
         }
         |> Jason.encode!()

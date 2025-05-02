@@ -55,4 +55,25 @@ defmodule BuddiesBackendWeb.UserController do
     |> put_resp_content_type("application/json")
     |> send_resp(200, body)
   end
+
+  def update_preferences(conn, params) do
+    user = conn.assigns[:current_user]
+
+    IO.inspect(params)
+
+    # Update first login to false.
+    Accounts.update_user_first_login(user)
+
+    case User.preferences_changeset(user, params) |> Repo.update() |> IO.inspect() do
+      {:ok, _user} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, "")
+
+      {:error, changeset} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(422, Jason.encode!(%{error: changeset_error_to_string(changeset)}))
+    end
+  end
 end
