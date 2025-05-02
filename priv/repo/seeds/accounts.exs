@@ -23,6 +23,7 @@ defmodule BuddiesBackend.Repo.Seeds.Accounts do
         "name" => name,
         "email" => email,
         "age" => Enum.random(20..30),
+        "photo" => "https://randomuser.me/api/portraits/#{Enum.random(["men", "women"])}/#{Enum.random(1..99)}.jpg",
         "password" => "password1234",
         "password_confirmation" => "password1234"
       }

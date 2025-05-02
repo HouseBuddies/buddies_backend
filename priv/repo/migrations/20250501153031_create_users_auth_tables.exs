@@ -8,6 +8,7 @@ defmodule BuddiesBackend.Repo.Migrations.CreateUsersAuthTables do
       add :id, :binary_id, primary_key: true
       add :name, :string, null: false
       add :age, :integer
+      add :photo, :string
       add :location, :string
       add :first_time_login, :boolean, default: true, null: false
       add :email, :citext, null: false
