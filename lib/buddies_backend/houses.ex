@@ -8,6 +8,7 @@ defmodule BuddiesBackend.Houses do
 
   alias BuddiesBackend.Houses.House
   alias BuddiesBackend.Houses.UserHouse
+  alias BuddiesBackend.Accounts.User
   alias BuddiesBackend.Managements
   alias BuddiesBackend.BillSpliters
   alias BuddiesBackend.Calendars
@@ -26,8 +27,16 @@ defmodule BuddiesBackend.Houses do
 
   """
   def list_houses do
-    Repo.all(House)
+    from(h in House,
+      join: uh in UserHouse,
+      on: uh.house_id == h.id and uh.type == :owner,
+      join: u in User,
+      on: u.id == uh.user_id,
+      select: {h, u}
+    )
+    |> Repo.all()
   end
+
 
   @doc """
   Gets a single house.

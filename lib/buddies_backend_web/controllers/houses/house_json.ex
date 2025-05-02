@@ -1,5 +1,6 @@
 defmodule BuddiesBackendWeb.HouseJSON do
   alias BuddiesBackend.Houses.House
+  alias BuddiesBackend.Accounts.User
 
   @doc """
   Renders a list of houses.
@@ -15,7 +16,7 @@ defmodule BuddiesBackendWeb.HouseJSON do
     %{data: data(house)}
   end
 
-  defp data(%House{} = house) do
+  defp data({%House{} = house, %User{} = user}) do
     %{
       id: house.id,
       rent: house.rent,
@@ -25,6 +26,15 @@ defmodule BuddiesBackendWeb.HouseJSON do
       max_residents: house.max_residents,
       tags: house.tags,
       created_at: house.inserted_at,
+      owner: %{
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        age: user.age,
+        location: user.location,
+        confirmed_at: user.confirmed_at,
+        first_time_login: user.first_time_login
+      }
     }
   end
 end
