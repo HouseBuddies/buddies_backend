@@ -9,6 +9,16 @@ defmodule BuddiesBackend.Repo.Migrations.CreateUsersAuthTables do
       add :name, :string, null: false
       add :age, :integer
       add :photo, :string
+      add :gender, :string
+      add :occupation, :string
+      add :max_rent, :integer
+      add :work_schedule, :string
+      add :desired_cleanliness, :integer
+      add :noise_tolerance, :integer
+      add :sleep_schedule, :string
+      add :smoker, :boolean
+      add :alcohol, :string
+      add :visitors, :integer
       add :location, :string
       add :first_time_login, :boolean, default: true, null: false
       add :email, :citext, null: false

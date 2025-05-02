@@ -9,6 +9,16 @@ defmodule BuddiesBackend.Accounts.User do
     field :email, :string
     field :age, :integer
     field :photo, :string
+    field :gender, Ecto.Enum, values: [:male, :female, :non_binary, :not_say]
+    field :occupation, Ecto.Enum, values: [:student, :full_time, :part_time, :freelance, :unemployed, :retired]
+    field :max_rent, :integer
+    field :work_schedule, Ecto.Enum, values: [:remote, :on_site, :day_shift, :night_shift, :weekends, :rotating]
+    field :desired_cleanliness, :integer
+    field :noise_tolerance, :integer
+    field :sleep_schedule, Ecto.Enum, values: [:early_bird, :night_owl, :regular, :variable]
+    field :smoker, :boolean
+    field :alcohol, Ecto.Enum, values: [:never, :occasional, :regular]
+    field :visitors, :integer
     field :first_time_login, :boolean, default: true
     field :location, :string
     field :password, :string, virtual: true, redact: true
@@ -49,6 +59,12 @@ defmodule BuddiesBackend.Accounts.User do
     |> cast(attrs, [:name, :email, :photo, :password, :age])
     |> validate_email(opts)
     |> validate_password(opts)
+  end
+
+  def preferences_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:gender, :occupation, :max_rent, :work_schedule, :desired_cleanliness, :noise_tolerance, :smoker, :alcohol, :visitors, :location])
+    |> validate_required([:gender, :occupation, :max_rent, :work_schedule, :desired_cleanliness, :noise_tolerance, :smoker, :alcohol, :visitors, :location])
   end
 
   def login_status_changeset(user, attrs) do

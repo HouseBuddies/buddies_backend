@@ -24,6 +24,7 @@ defmodule BuddiesBackendWeb.Router do
     scope "/user" do
       get "/", UserController, :show
       get "/:id/matches", UserHouseController, :show_user_matches
+      post "/update_preferences", UserController, :update_preferences
     end
 
     scope "/houses" do
