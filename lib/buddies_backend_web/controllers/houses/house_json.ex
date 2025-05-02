@@ -19,6 +19,7 @@ defmodule BuddiesBackendWeb.HouseJSON do
   defp data({%House{} = house, %User{} = user}) do
     %{
       id: house.id,
+      image: house.image,
       rent: house.rent,
       rooms: house.rooms,
       available_date: house.available_date,

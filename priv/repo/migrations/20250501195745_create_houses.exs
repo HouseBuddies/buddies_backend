@@ -4,6 +4,8 @@ defmodule BuddiesBackend.Repo.Migrations.CreateHouses do
   def change do
     create table(:houses, primary_key: false) do
       add :id, :binary_id, primary_key: true
+
+      add :image, :string
       add :rent, :decimal
       add :rooms, :integer
       add :available_date, :utc_datetime

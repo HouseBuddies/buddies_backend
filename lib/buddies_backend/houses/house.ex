@@ -4,11 +4,12 @@ defmodule BuddiesBackend.Houses.House do
   alias BuddiesBackend.Subscriptions.Subscription
 
   @required_fields ~w(rent rooms available_date address max_residents)a
-  @optional_fields ~w(tags likes subscription_id)a
+  @optional_fields ~w(tags likes subscription_id image)a
 
   schema "houses" do
     has_many :residents, User
 
+    field :image, :string
     field :address, :string
     field :rent, :decimal
     field :rooms, :integer

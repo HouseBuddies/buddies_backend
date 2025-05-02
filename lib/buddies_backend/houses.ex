@@ -270,7 +270,7 @@ end
 
   def get_house_residents(house_id) do
     from(uh in UserHouse,
-      where: uh.house_id == ^house_id and uh.type == "resident",
+      where: uh.house_id == ^house_id and uh.type == :resident,
       join: u in assoc(uh, :user),
       preload: [user: u]
     )
@@ -279,7 +279,7 @@ end
 
   def get_house_owner(house_id) do
     from(uh in UserHouse,
-      where: uh.house_id == ^house_id and uh.type == "owner",
+      where: uh.house_id == ^house_id and uh.type == :owner,
       join: u in assoc(uh, :user),
       preload: [user: u]
     )
@@ -288,7 +288,16 @@ end
 
   def get_user_matches(user_id) do
     from(uh in UserHouse,
-      where: uh.user_id == ^user_id and uh.type == "match",
+      where: uh.user_id == ^user_id and uh.type == :match,
+      join: u in assoc(uh, :user),
+      preload: [user: u]
+    )
+    |> Repo.all()
+  end
+
+  def get_house_matches(house_id) do
+    from(uh in UserHouse,
+      where: uh.house_id == ^house_id and uh.type == :match,
       join: u in assoc(uh, :user),
       preload: [user: u]
     )

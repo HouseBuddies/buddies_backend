@@ -20,18 +20,18 @@ defmodule BuddiesBackendWeb.UserHouseController do
     end
   end
 
-  def show_house_residents(conn, %{"house_id" => house_id}) do
+  def show_house_residents(conn, %{"id" => house_id}) do
     user_houses = Houses.get_house_residents(house_id)
     render(conn, :index, user_houses: user_houses)
   end
 
-  def show_house_owner(conn, %{"house_id" => house_id}) do
-    user_houses = Houses.get_house_owner(house_id)
-    render(conn, :index, user_houses: user_houses)
+  def show_house_owner(conn, %{"id" => house_id}) do
+    user_house = Houses.get_house_owner(house_id)
+    render(conn, :show, user_house: user_house)
   end
 
-  def show_user_matches(conn, %{"user_id" => user_id}) do
-    user_houses = Houses.get_user_matches(user_id)
+  def show_house_matches(conn, %{"id" => house_id}) do
+    user_houses = Houses.get_house_matches(house_id)
     render(conn, :index, user_houses: user_houses)
   end
 

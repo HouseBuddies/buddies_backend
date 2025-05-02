@@ -11,7 +11,7 @@ defmodule BuddiesBackend.Repo.Seeds.Plans do
   def run do
     plans = [
       %{
-        name: "Premium House",
+        name: "Premium",
         description: "A premium house with all the amenities.",
         price: Decimal.new("9.99")
       }

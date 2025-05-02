@@ -16,11 +16,17 @@ defmodule BuddiesBackendWeb.UserHouseJSON do
   end
 
   defp data(%UserHouse{} = user_house) do
+    IO.inspect(user_house, label: "UH")
     %{
       id: user_house.id,
-      house: user_house.house,
-      user: user_house.user,
-      type: user_house.type,
+      user: %{
+        id: user_house.user.id,
+        name: user_house.user.name,
+        email: user_house.user.email,
+        age: user_house.user.age,
+        location: user_house.user.location
+      },
+      type: user_house.type
     }
   end
 end

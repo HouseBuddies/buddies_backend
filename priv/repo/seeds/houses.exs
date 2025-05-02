@@ -24,8 +24,11 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
       rooms = Enum.random(1..5)
       available_date = DateTime.utc_now() |> DateTime.add(Enum.random(0..30), :second)
 
+      image_url = "localhost:4000/images/houses/#{Enum.random(0..59)}.jpg"
+
       owner = Enum.random(users)
       attrs = %{
+        "image" => image_url,
         "address" => address,
         "rent" => rent,
         "rooms" => rooms,

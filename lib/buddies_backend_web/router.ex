@@ -32,6 +32,9 @@ defmodule BuddiesBackendWeb.Router do
       get "/:id", HouseController, :show
       put "/:id", HouseController, :update
       delete "/:id", HouseController, :delete
+      get "/:id/residents", UserHouseController, :show_house_residents
+      get "/:id/owner", UserHouseController, :show_house_owner
+      get "/:id/matches", UserHouseController, :show_house_matches
 
       scope "/:house_id/tasks" do
         get "/", TaskController, :index
@@ -55,8 +58,6 @@ defmodule BuddiesBackendWeb.Router do
       delete "/:id", UserHouseController, :delete
     end
 
-    get "/house_residents/:house_id", UserHouseController, :show_house_residents
-    get "/house_owner/:house_id", UserHouseController, :show_house_owner
 
     get "/plan/:name", PlanController, :show
 
