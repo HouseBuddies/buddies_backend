@@ -25,7 +25,6 @@ defmodule BuddiesBackendWeb.HouseJSON do
       max_residents: house.max_residents,
       tags: house.tags,
       created_at: house.inserted_at,
-      residents: house.residents,
     }
   end
 end

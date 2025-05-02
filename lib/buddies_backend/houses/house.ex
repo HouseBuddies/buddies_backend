@@ -8,6 +8,7 @@ defmodule BuddiesBackend.Houses.House do
 
   schema "houses" do
     has_many :residents, User
+
     field :address, :string
     field :rent, :decimal
     field :rooms, :integer
