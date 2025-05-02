@@ -8,6 +8,7 @@ defmodule BuddiesBackend.Accounts.User do
     field :name, :string
     field :email, :string
     field :age, :integer
+    field :photo, :string
     field :first_time_login, :boolean, default: true
     field :location, :string
     field :password, :string, virtual: true, redact: true
@@ -45,7 +46,7 @@ defmodule BuddiesBackend.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:name, :email, :password, :age])
+    |> cast(attrs, [:name, :email, :photo, :password, :age])
     |> validate_email(opts)
     |> validate_password(opts)
   end

@@ -47,6 +47,7 @@ defmodule BuddiesBackendWeb.HouseJSON do
         name: user.name,
         email: user.email,
         age: user.age,
+        photo: user.photo,
         location: user.location,
         confirmed_at: user.confirmed_at,
         first_time_login: user.first_time_login
@@ -72,6 +73,7 @@ defmodule BuddiesBackendWeb.HouseJSON do
         name: user.name,
         email: user.email,
         age: user.age,
+        photo: user.photo,
         location: user.location,
         confirmed_at: user.confirmed_at,
         first_time_login: user.first_time_login
@@ -102,6 +104,7 @@ defmodule BuddiesBackendWeb.HouseJSON do
         name: user.name,
         email: user.email,
         age: user.age,
+        photo: user.photo,
         location: user.location,
         confirmed_at: user.confirmed_at,
         first_time_login: user.first_time_login

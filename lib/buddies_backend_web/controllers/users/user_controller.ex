@@ -44,6 +44,7 @@ defmodule BuddiesBackendWeb.UserController do
           name: user.name,
           age: user.age,
           email: user.email,
+          photo: user.photo,
           location: user.location || "",
           first_time_login: user.first_time_login
         }
