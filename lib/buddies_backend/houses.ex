@@ -308,4 +308,33 @@ defmodule BuddiesBackend.Houses do
     )
     |> Repo.all()
   end
+
+  def favorite_house(house_id, user_id) do
+    %UserHouse{}
+    |> UserHouse.changeset(%{house_id: house_id, user_id: user_id, type: :favorite})
+    |> Repo.insert()
+  end
+
+  def join_house(house_id, user_id) do
+    %UserHouse{}
+    |> UserHouse.changeset(%{house_id: house_id, user_id: user_id, type: :resident})
+    |> Repo.insert()
+  end
+
+  def get_user_favorite_houses(user_id) do
+    from(uh in UserHouse,
+      where: uh.user_id == ^user_id and uh.type == :favorite,
+      join: u in assoc(uh, :user),
+      join: h in assoc(uh, :house),
+      preload: [user: u, house: h]
+    )
+    |> Repo.all()
+  end
+
+  def remove_favorite_house(house_id, user_id) do
+    from(uh in UserHouse,
+      where: uh.house_id == ^house_id and uh.user_id == ^user_id and uh.type == :favorite
+    )
+    |> Repo.delete_all()
+  end
 end

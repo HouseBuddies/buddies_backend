@@ -66,7 +66,7 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
       end
     end
 
-    seed_user_houses()
+    #seed_user_houses()
   end
 
   def seed_user_houses do
@@ -85,11 +85,11 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
         {:ok, _user_house} ->
           :ok
 
-        {:error, changeset} ->
+        {:error, _changeset} ->
           :ok
       end
 
-      for user <- users do
+      for user <- Enum.take(users, 5) do
         attrs = %{
           "user_id" => user.id,
           "house_id" => house.id,

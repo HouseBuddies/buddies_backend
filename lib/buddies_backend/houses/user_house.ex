@@ -9,7 +9,7 @@ defmodule BuddiesBackend.Houses.UserHouse do
   schema "user_houses" do
     belongs_to :user, User
     belongs_to :house, House
-    field :type, Ecto.Enum, values: [:resident, :owner, :bookmark, :match], default: :resident
+    field :type, Ecto.Enum, values: [:resident, :owner, :favorite, :match], default: :resident
 
     timestamps(type: :utc_datetime)
   end
@@ -20,6 +20,5 @@ defmodule BuddiesBackend.Houses.UserHouse do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> unique_constraint([:user_id, :house_id], name: :unique_user_house)
-    |> validate_inclusion(:type, [:resident, :owner])
   end
 end

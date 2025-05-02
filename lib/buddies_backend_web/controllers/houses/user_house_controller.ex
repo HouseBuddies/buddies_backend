@@ -49,6 +49,43 @@ defmodule BuddiesBackendWeb.UserHouseController do
     end
   end
 
+  def favorite_house(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
+    with {:ok, %UserHouse{} = user_house} <- Houses.favorite_house(house_id, user_id) do
+      render(conn, :show_confirm, user_house: user_house)
+    end
+  end
+
+  def remove_favorite_house(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
+    with {_, _} <- Houses.remove_favorite_house(house_id, user_id) do
+      render(conn, :show_boolean, value: true)
+    else
+      {:error, _reason} ->
+        render(conn, :show_boolean, value: false)
+    end
+  end
+
+  def get_user_favorite_houses(conn, %{"user_id" => user_id}) do
+    user_houses = Houses.get_user_favorite_houses(user_id)
+    render(conn, :index, user_houses: user_houses)
+  end
+
+  def join_house(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
+    with {:ok, %UserHouse{} = user_house} <- Houses.join_house(house_id, user_id) do
+      render(conn, :show_confirm, user_house: user_house)
+    end
+  end
+
+  def is_member(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
+    user_houses = Houses.get_user_matches(user_id)
+    user_house = Enum.find(user_houses, fn uh -> uh.house_id == house_id end)
+
+    if user_house do
+      render(conn, :show_boolean, value: true)
+    else
+      render(conn, :show_boolean, value: false)
+    end
+  end
+
   def delete(conn, %{"id" => id}) do
     user_house = Houses.get_user_house!(id)
 
