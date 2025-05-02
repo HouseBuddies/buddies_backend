@@ -13,7 +13,7 @@ defmodule BuddiesBackend.Repo.Migrations.CreateHouses do
       add :max_residents, :integer, default: 5
       add :address, :string
       add :tags, {:array, :string}, default: []
-      add :likes, {:array, :string}, default: []
+      add :likes, :map, default: %{}
       add :subscription_id, references(:subscriptions, type: :binary_id, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)

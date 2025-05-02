@@ -17,7 +17,7 @@ defmodule BuddiesBackend.Houses.House do
     field :available_date, :utc_datetime
     field :max_residents, :integer, default: 5
     field :tags, {:array, :string}, default: []
-    field :likes, {:array, :string}, default: []
+    field :likes, :map, default: %{}
     belongs_to :subscription, Subscription
 
     timestamps(type: :utc_datetime)

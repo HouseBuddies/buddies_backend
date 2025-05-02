@@ -5,6 +5,11 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
   alias BuddiesBackend.Houses.UserHouse
 
   @addresses File.read!("priv/fake/addresses.txt") |> String.split("\n")
+  @tags File.read!("priv/fake/tags.txt") |> String.split("\n")
+  @likes_config File.read!("priv/fake/likes.json") |> Jason.decode!()
+  @likes_options Map.new(@likes_config, fn %{"stateKey" => key, "options" => opts} ->
+                   {key, opts}
+                 end)
 
   def run do
     case Houses.list_houses() do
@@ -25,9 +30,18 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
       rooms = Enum.random(1..5)
       available_date = DateTime.utc_now() |> DateTime.add(Enum.random(0..30), :second)
 
+      likes = %{
+        "selectedInterests" =>
+          Enum.take_random(@likes_options["selectedInterests"], Enum.random(1..3)),
+        "selectedGoals" => Enum.take_random(@likes_options["selectedGoals"], Enum.random(1..2)),
+        "selectedNotifications" =>
+          Enum.take_random(@likes_options["selectedNotifications"], Enum.random(1..2))
+      }
+
       image_url = "/images/houses/#{Enum.random(0..59)}.jpg"
 
       owner = Enum.random(users)
+
       attrs = %{
         "image" => image_url,
         "address" => address,
@@ -35,15 +49,20 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
         "max_rent" => max_rent,
         "rooms" => rooms,
         "available_date" => available_date,
-        "owner_id" => owner.id
+        "tags" => Enum.take(Enum.shuffle(@tags), 5),
+        "owner_id" => owner.id,
+        "likes" => likes
       }
 
       case Houses.create_house(attrs) do
-        {:ok, house} ->
-          Mix.shell().info("Created house: #{house.address} (#{house.min_rent} - #{house.max_rent})")
+        {:ok, _house} ->
+          :ok
 
-        {:error, changeset} ->
-          Mix.shell().error(Kernel.inspect(changeset.errors))
+        # Mix.shell().info("Created house: #{house.address} (#{house.min_rent} - #{house.max_rent})")
+
+        {:error, _changeset} ->
+          :ok
+          # Mix.shell().error(Kernel.inspect(changeset.errors))
       end
     end
 
@@ -64,29 +83,29 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
 
       case UserHouse.changeset(%UserHouse{}, attrs) |> Repo.insert() do
         {:ok, _user_house} ->
-          Mix.shell().info("Created successfully !")
+          :ok
+
         {:error, changeset} ->
-          Mix.shell().error(Kernel.inspect(changeset.errors))
+          :ok
       end
 
       for user <- users do
         attrs = %{
           "user_id" => user.id,
           "house_id" => house.id,
-          "type" => :resident,
+          "type" => :resident
         }
 
         case UserHouse.changeset(%UserHouse{}, attrs) |> Repo.insert() do
           {:ok, _user_house} ->
-            Mix.shell().info("Created successfully !")
+            :ok
 
           {:error, changeset} ->
-            Mix.shell().error(Kernel.inspect(changeset.errors))
+            :ok
         end
       end
     end
   end
-
 end
 
 BuddiesBackend.Repo.Seeds.Houses.run()
