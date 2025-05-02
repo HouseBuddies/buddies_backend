@@ -53,20 +53,20 @@ defmodule BuddiesBackend.Houses do
       ** (Ecto.NoResultsError)
 
   """
-  def get_house!(nil), do: nil
   def get_house!(id) do
     from(h in House,
-      where: h.id == ^id,
       join: uh in UserHouse,
       on: uh.house_id == h.id and uh.type == :owner,
       join: u in User,
       on: u.id == uh.user_id,
-      join: s in Subscription,
+      left_join: s in Subscription,
       on: s.id == h.subscription_id,
+      where: h.id == ^id,
       select: {h, u, s}
     )
     |> Repo.one!()
   end
+
 
   @doc """
   Creates a house, assigns the user as the owner, and creates associated management entities.

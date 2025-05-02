@@ -55,7 +55,6 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
     houses = Houses.list_houses()
 
     for {house, user} <- houses do
-      IO.inspect(house)
       attrs = %{
         "user_id" => user.id,
         "house_id" => house.id,
