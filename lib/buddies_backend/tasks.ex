@@ -27,7 +27,8 @@ defmodule BuddiesBackend.Tasks do
     from(t in Task,
       join: tl in TodoList,
       join: m in Management,
-      where: m.house_id == ^house_id
+      where: m.house_id == ^house_id,
+      distinct: true
     )
     |> Repo.all()
   end
