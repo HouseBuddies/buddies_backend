@@ -61,7 +61,9 @@ defmodule BuddiesBackend.Houses do
       on: uh.house_id == h.id and uh.type == :owner,
       join: u in User,
       on: u.id == uh.user_id,
-      select: {h, u}
+      join: s in Subscription,
+      on: s.id == h.subscription_id,
+      select: {h, u, s}
     )
     |> Repo.one!()
   end
