@@ -8,6 +8,13 @@ defmodule BuddiesBackend.Houses do
 
   alias BuddiesBackend.Houses.House
   alias BuddiesBackend.Houses.UserHouse
+  alias BuddiesBackend.Managements
+  alias BuddiesBackend.BillSpliters
+  alias BuddiesBackend.Calendars
+  alias BuddiesBackend.ShoppingCarts
+  alias BuddiesBackend.TodoLists
+
+  alias BuddiesBackend.Managements.{Management, TodoList, BillSpliter, Calendar, ShoppingCart}
 
   @doc """
   Returns the list of houses.
@@ -42,7 +49,7 @@ defmodule BuddiesBackend.Houses do
   end
 
   @doc """
-  Creates a house and assigns the user as the owner.
+  Creates a house, assigns the user as the owner, and creates associated management entities.
 
   ## Examples
 
@@ -65,6 +72,23 @@ defmodule BuddiesBackend.Houses do
       %UserHouse{}
       |> UserHouse.changeset(%{house_id: house.id, user_id: user_id, type: "owner"})
       |> Repo.insert!()
+
+      {:ok, management} = Managements.create_management(%{house_id: house.id})
+
+      {:ok, bill_spliter} = BillSpliters.create_bill_spliter(%{management_id: management.id})
+      {:ok, calendar} = Calendars.create_calendar(%{management_id: management.id})
+      {:ok, shopping_cart} = ShoppingCarts.create_shopping_cart(%{management_id: management.id})
+      {:ok, todo_list} = TodoLists.create_todo_list(%{management_id: management.id})
+
+
+      Managements.update_management(management,
+      %{
+        bill_spliter_id: bill_spliter.id,
+        calendar_id: calendar.id,
+        shopping_cart: shopping_cart.id,
+        todo_list: todo_list.id
+      })
+
 
       house
     end)

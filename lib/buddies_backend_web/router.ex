@@ -32,6 +32,22 @@ defmodule BuddiesBackendWeb.Router do
       get "/:id", HouseController, :show
       put "/:id", HouseController, :update
       delete "/:id", HouseController, :delete
+
+      scope "/:house_id/tasks" do
+        get "/", TaskController, :index
+        post "/", TaskController, :create
+        get "/:id", TaskController, :show
+        put "/:id", TaskController, :update
+        delete "/:id", TaskController, :delete
+      end
+
+      scope "/:house_id/bills" do
+        get "/", BillController, :index
+        post "/", BillController, :create
+        get "/:id", BillController, :show
+        put "/:id", BillController, :update
+        delete "/.id", BillController, :delete
+      end
     end
 
     scope "/user_houses" do

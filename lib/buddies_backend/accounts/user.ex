@@ -1,6 +1,9 @@
 defmodule BuddiesBackend.Accounts.User do
   use BuddiesBackend.Schema
 
+  alias BuddiesBackend.Tasks.Task
+  alias BuddiesBackend.Houses.House
+
   schema "users" do
     field :name, :string
     field :email, :string
@@ -11,6 +14,8 @@ defmodule BuddiesBackend.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    has_many :tasks, Task
+    has_many :houses, House
 
     timestamps(type: :utc_datetime)
   end
