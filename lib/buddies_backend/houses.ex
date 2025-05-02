@@ -45,7 +45,6 @@ defmodule BuddiesBackend.Houses do
   """
   def get_house!(id) do
     Repo.get!(House, id)
-    |> Repo.preload([:residents])
   end
 
   @doc """
