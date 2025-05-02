@@ -317,7 +317,7 @@ defmodule BuddiesBackend.Houses do
 
   def join_house(house_id, user_id) do
     %UserHouse{}
-    |> UserHouse.changeset(%{house_id: house_id, user_id: user_id, type: :resident})
+    |> UserHouse.changeset(%{house_id: house_id, user_id: user_id, type: :match})
     |> Repo.insert()
   end
 
@@ -334,6 +334,13 @@ defmodule BuddiesBackend.Houses do
   def remove_favorite_house(house_id, user_id) do
     from(uh in UserHouse,
       where: uh.house_id == ^house_id and uh.user_id == ^user_id and uh.type == :favorite
+    )
+    |> Repo.delete_all()
+  end
+
+  def remove_join_house(house_id, user_id) do
+    from(uh in UserHouse,
+      where: uh.house_id == ^house_id and uh.user_id == ^user_id and uh.type == :match
     )
     |> Repo.delete_all()
   end

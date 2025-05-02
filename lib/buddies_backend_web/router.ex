@@ -38,7 +38,9 @@ defmodule BuddiesBackendWeb.Router do
       post "/:house_id/favorite", UserHouseController, :favorite_house
       delete "/:house_id/favorite", UserHouseController, :remove_favorite_house
       get "/:user_id/favorite_houses", UserHouseController, :get_user_favorite_houses
+      get "/:house_id/join_request", UserHouseController, :get_join_request
       post "/:house_id/join", UserHouseController, :join_house
+      delete "/:house_id/join", UserHouseController, :remove_join_house
       get "/:house_id/:user_id/is_member", UserHouseController, :is_member
 
       scope "/:house_id/tasks" do

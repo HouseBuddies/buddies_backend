@@ -75,6 +75,26 @@ defmodule BuddiesBackendWeb.UserHouseController do
     end
   end
 
+  def remove_join_house(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
+    with {_, _} <- Houses.remove_join_house(house_id, user_id) do
+      render(conn, :show_boolean, value: true)
+    else
+      {:error, _reason} ->
+        render(conn, :show_boolean, value: false)
+    end
+  end
+
+  def get_join_request(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
+    user_houses = Houses.get_user_matches(user_id)
+    user_house = Enum.find(user_houses, fn uh -> uh.house_id == house_id end)
+
+    if user_house do
+      render(conn, :show_boolean, value: true)
+    else
+      render(conn, :show_boolean, value: false)
+    end
+  end
+
   def is_member(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
     user_houses = Houses.get_user_matches(user_id)
     user_house = Enum.find(user_houses, fn uh -> uh.house_id == house_id end)
