@@ -65,7 +65,7 @@ defmodule BuddiesBackend.Subscriptions do
            |> Subscription.changeset(attrs)
            |> Repo.insert() do
         {:ok, subscription} ->
-          {house, _user} = Houses.get_house!(house_id)
+          {house, _user, _} = Houses.get_house!(house_id)
           Houses.update_house(house, %{subscription_id: subscription.id})
           {:ok, subscription}
 
