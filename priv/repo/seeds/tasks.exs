@@ -23,14 +23,16 @@ defmodule BuddiesBackend.Repo.Seeds.Tasks do
 
   def seed_tasks do
     todo_lists = TodoLists.list_todolists() |> Enum.take(3)
+    users = BuddiesBackend.Accounts.list_users() |> Enum.take(3)
 
     for todo_list <- todo_lists do
-      for task <- @tasks do
+      for task <- Enum.take_random(@tasks, 3) do
         attrs = %{
           "title" => task,
           "description" => "Description for #{task}",
           "status" => :pending,
           "todo_list_id" => todo_list.id,
+          "creator_id" => Enum.random(users).id,
           "due_date" => DateTime.utc_now() |> DateTime.add(Enum.random(0..30), :day)
         }
 

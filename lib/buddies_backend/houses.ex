@@ -344,4 +344,17 @@ defmodule BuddiesBackend.Houses do
     )
     |> Repo.delete_all()
   end
+
+  def get_user_houses!(user_id) do
+    IO.inspect(user_id, label: "user_id")
+    from(uh in UserHouse,
+      where: uh.user_id == ^user_id and uh.type in [:owner, :resident],
+      join: u in assoc(uh, :user),
+      join: h in assoc(uh, :house),
+      preload: [user: u, house: h],
+      select: {h, u, uh}
+    )
+    |> Repo.all()
+    |> IO.inspect(label: "user_houses")
+  end
 end

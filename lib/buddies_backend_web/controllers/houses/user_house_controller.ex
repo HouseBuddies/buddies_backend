@@ -95,6 +95,11 @@ defmodule BuddiesBackendWeb.UserHouseController do
     end
   end
 
+  def get_user_houses(conn, %{"user_id" => user_id} = _attrs) do
+    user_houses = Houses.get_user_houses!(user_id)
+    render(conn, :show_user_houses, user_houses: user_houses)
+  end
+
   def is_member(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
     user_houses = Houses.get_user_matches(user_id)
     user_house = Enum.find(user_houses, fn uh -> uh.house_id == house_id end)

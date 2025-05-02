@@ -49,7 +49,7 @@ defmodule BuddiesBackendWeb.HouseController do
   end
 
   def show(conn, %{"id" => id}) do
-    house = Houses.get_house!(id)
+    {house, _, _} = Houses.get_house!(id)
     render(conn, :show, house: house)
   end
 

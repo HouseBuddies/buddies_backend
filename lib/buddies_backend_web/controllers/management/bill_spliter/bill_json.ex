@@ -18,6 +18,7 @@ defmodule BuddiesBackendWeb.BillJSON do
   defp data(%Bill{} = bill) do
     %{
       id: bill.id,
+      description: bill.description,
       price: bill.price,
       due_date: bill.due_date
     }

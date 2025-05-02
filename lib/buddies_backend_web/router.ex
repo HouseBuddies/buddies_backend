@@ -42,6 +42,7 @@ defmodule BuddiesBackendWeb.Router do
       post "/:house_id/join", UserHouseController, :join_house
       delete "/:house_id/join", UserHouseController, :remove_join_house
       get "/:house_id/:user_id/is_member", UserHouseController, :is_member
+      get "/living/:user_id", UserHouseController, :get_user_houses
 
       scope "/:house_id/tasks" do
         get "/", TaskController, :index

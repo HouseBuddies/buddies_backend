@@ -3,9 +3,10 @@ defmodule BuddiesBackend.Bills.Bill do
 
   alias BuddiesBackend.Accounts.User
 
-  @required_fields ~w(price due_date)a
+  @required_fields ~w(price due_date description)a
 
   schema "bills" do
+    field :description, :string
     field :price, :decimal
     field :due_date, :utc_datetime
     has_many :assigned_users, User
