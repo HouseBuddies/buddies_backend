@@ -10,9 +10,7 @@ defmodule BuddiesBackend.CalendarsFixtures do
   def calendar_fixture(attrs \\ %{}) do
     {:ok, calendar} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BuddiesBackend.Calendars.create_calendar()
 
     calendar

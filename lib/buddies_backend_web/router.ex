@@ -49,15 +49,15 @@ defmodule BuddiesBackendWeb.Router do
         post "/", BillController, :create
         get "/:id", BillController, :show
         put "/:id", BillController, :update
-        delete "/.id", BillController, :delete
+        delete "/:id", BillController, :delete
       end
     end
 
     scope "/user_houses" do
-      post "/", UserHouseController, :create # Match, Bookmark
+      # Match, Bookmark
+      post "/", UserHouseController, :create
       delete "/:id", UserHouseController, :delete
     end
-
 
     get "/plan/:name", PlanController, :show
 

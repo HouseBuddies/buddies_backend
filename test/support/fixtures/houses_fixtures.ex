@@ -26,9 +26,7 @@ defmodule BuddiesBackend.HousesFixtures do
   def user_house_fixture(attrs \\ %{}) do
     {:ok, user_house} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BuddiesBackend.Houses.create_user_house()
 
     user_house

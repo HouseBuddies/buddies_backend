@@ -4,7 +4,6 @@ defmodule BuddiesBackend.Plans.Plan do
   @required_fields ~w(name description price)a
   @optional_fields ~w()a
 
-
   schema "plans" do
     field :name, :string
     field :description, :string

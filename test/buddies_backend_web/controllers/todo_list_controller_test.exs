@@ -5,12 +5,8 @@ defmodule BuddiesBackendWeb.TodoListControllerTest do
 
   alias BuddiesBackend.Managements.TodoList
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BuddiesBackendWeb.TodoListControllerTest do
   describe "update todo_list" do
     setup [:create_todo_list]
 
-    test "renders todo_list when data is valid", %{conn: conn, todo_list: %TodoList{id: id} = todo_list} do
+    test "renders todo_list when data is valid", %{
+      conn: conn,
+      todo_list: %TodoList{id: id} = todo_list
+    } do
       conn = put(conn, ~p"/api/todolists/#{todo_list}", todo_list: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

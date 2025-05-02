@@ -37,10 +37,9 @@ defmodule BuddiesBackend.Plans do
   """
   def get_plan!(id), do: Repo.get!(Plan, id)
 
-
   def get_plan_by_name!(name) do
     from(p in Plan,
-        where: p.name == ^name
+      where: p.name == ^name
     )
     |> Repo.one()
   end

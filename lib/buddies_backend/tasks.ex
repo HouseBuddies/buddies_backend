@@ -7,6 +7,8 @@ defmodule BuddiesBackend.Tasks do
   alias BuddiesBackend.Repo
 
   alias BuddiesBackend.Tasks.Task
+  alias BuddiesBackend.Managements.TodoList
+  alias BuddiesBackend.Managements.Management
 
   @doc """
   Returns the list of tasks.
@@ -23,8 +25,8 @@ defmodule BuddiesBackend.Tasks do
 
   def list_tasks_by_house(house_id) do
     from(t in Task,
-      join: tl in assoc(t, :todo_list),
-      join: m in assoc(tl, :management),
+      join: tl in TodoList,
+      join: m in Management,
       where: m.house_id == ^house_id
     )
     |> Repo.all()

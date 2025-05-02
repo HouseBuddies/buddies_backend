@@ -5,12 +5,8 @@ defmodule BuddiesBackendWeb.CalendarControllerTest do
 
   alias BuddiesBackend.Managements.Calendar
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BuddiesBackendWeb.CalendarControllerTest do
   describe "update calendar" do
     setup [:create_calendar]
 
-    test "renders calendar when data is valid", %{conn: conn, calendar: %Calendar{id: id} = calendar} do
+    test "renders calendar when data is valid", %{
+      conn: conn,
+      calendar: %Calendar{id: id} = calendar
+    } do
       conn = put(conn, ~p"/api/calendars/#{calendar}", calendar: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

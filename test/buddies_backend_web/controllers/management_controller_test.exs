@@ -5,12 +5,8 @@ defmodule BuddiesBackendWeb.ManagementControllerTest do
 
   alias BuddiesBackend.Managements.Management
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BuddiesBackendWeb.ManagementControllerTest do
   describe "update management" do
     setup [:create_management]
 
-    test "renders management when data is valid", %{conn: conn, management: %Management{id: id} = management} do
+    test "renders management when data is valid", %{
+      conn: conn,
+      management: %Management{id: id} = management
+    } do
       conn = put(conn, ~p"/api/managements/#{management}", management: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

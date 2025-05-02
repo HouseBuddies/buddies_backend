@@ -23,7 +23,8 @@ defmodule BuddiesBackend.SubscriptionsTest do
     test "create_subscription/1 with valid data creates a subscription" do
       valid_attrs = %{}
 
-      assert {:ok, %Subscription{} = subscription} = Subscriptions.create_subscription(valid_attrs)
+      assert {:ok, %Subscription{} = subscription} =
+               Subscriptions.create_subscription(valid_attrs)
     end
 
     test "create_subscription/1 with invalid data returns error changeset" do
@@ -34,12 +35,16 @@ defmodule BuddiesBackend.SubscriptionsTest do
       subscription = subscription_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Subscription{} = subscription} = Subscriptions.update_subscription(subscription, update_attrs)
+      assert {:ok, %Subscription{} = subscription} =
+               Subscriptions.update_subscription(subscription, update_attrs)
     end
 
     test "update_subscription/2 with invalid data returns error changeset" do
       subscription = subscription_fixture()
-      assert {:error, %Ecto.Changeset{}} = Subscriptions.update_subscription(subscription, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Subscriptions.update_subscription(subscription, @invalid_attrs)
+
       assert subscription == Subscriptions.get_subscription!(subscription.id)
     end
 

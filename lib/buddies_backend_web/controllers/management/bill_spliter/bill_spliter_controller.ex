@@ -12,7 +12,8 @@ defmodule BuddiesBackendWeb.BillSpliterController do
   end
 
   def create(conn, %{"bill_spliter" => bill_spliter_params}) do
-    with {:ok, %BillSpliter{} = bill_spliter} <- BillSpliters.create_bill_spliter(bill_spliter_params) do
+    with {:ok, %BillSpliter{} = bill_spliter} <-
+           BillSpliters.create_bill_spliter(bill_spliter_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/billspliters/#{bill_spliter}")
@@ -28,7 +29,8 @@ defmodule BuddiesBackendWeb.BillSpliterController do
   def update(conn, %{"id" => id, "bill_spliter" => bill_spliter_params}) do
     bill_spliter = BillSpliters.get_bill_spliter!(id)
 
-    with {:ok, %BillSpliter{} = bill_spliter} <- BillSpliters.update_bill_spliter(bill_spliter, bill_spliter_params) do
+    with {:ok, %BillSpliter{} = bill_spliter} <-
+           BillSpliters.update_bill_spliter(bill_spliter, bill_spliter_params) do
       render(conn, :show, bill_spliter: bill_spliter)
     end
   end

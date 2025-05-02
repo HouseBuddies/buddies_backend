@@ -34,12 +34,16 @@ defmodule BuddiesBackend.BillSplitersTest do
       bill_spliter = bill_spliter_fixture()
       update_attrs = %{}
 
-      assert {:ok, %BillSpliter{} = bill_spliter} = BillSpliters.update_bill_spliter(bill_spliter, update_attrs)
+      assert {:ok, %BillSpliter{} = bill_spliter} =
+               BillSpliters.update_bill_spliter(bill_spliter, update_attrs)
     end
 
     test "update_bill_spliter/2 with invalid data returns error changeset" do
       bill_spliter = bill_spliter_fixture()
-      assert {:error, %Ecto.Changeset{}} = BillSpliters.update_bill_spliter(bill_spliter, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               BillSpliters.update_bill_spliter(bill_spliter, @invalid_attrs)
+
       assert bill_spliter == BillSpliters.get_bill_spliter!(bill_spliter.id)
     end
 

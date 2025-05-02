@@ -10,9 +10,7 @@ defmodule BuddiesBackend.ShoppingCartsFixtures do
   def shopping_cart_fixture(attrs \\ %{}) do
     {:ok, shopping_cart} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BuddiesBackend.ShoppingCarts.create_shopping_cart()
 
     shopping_cart

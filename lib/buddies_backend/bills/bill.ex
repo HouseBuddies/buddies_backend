@@ -5,7 +5,6 @@ defmodule BuddiesBackend.Bills.Bill do
 
   @required_fields ~w(price due_date)a
 
-
   schema "bills" do
     field :price, :decimal
     field :due_date, :utc_datetime

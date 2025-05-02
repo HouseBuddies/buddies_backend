@@ -10,9 +10,7 @@ defmodule BuddiesBackend.ManagementsFixtures do
   def management_fixture(attrs \\ %{}) do
     {:ok, management} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BuddiesBackend.Managements.create_management()
 
     management

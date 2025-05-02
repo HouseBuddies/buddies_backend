@@ -10,9 +10,7 @@ defmodule BuddiesBackend.BillSplitersFixtures do
   def bill_spliter_fixture(attrs \\ %{}) do
     {:ok, bill_spliter} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BuddiesBackend.BillSpliters.create_bill_spliter()
 
     bill_spliter

@@ -14,6 +14,7 @@ defmodule BuddiesBackend.Houses do
   alias BuddiesBackend.Calendars
   alias BuddiesBackend.ShoppingCarts
   alias BuddiesBackend.TodoLists
+  alias BuddiesBackend.Subscriptions.Subscription
 
   alias BuddiesBackend.Managements.{Management, TodoList, BillSpliter, Calendar, ShoppingCart}
 
@@ -32,11 +33,11 @@ defmodule BuddiesBackend.Houses do
       on: uh.house_id == h.id and uh.type == :owner,
       join: u in User,
       on: u.id == uh.user_id,
+      preload: [:subscription],
       select: {h, u}
     )
     |> Repo.all()
   end
-
 
   @doc """
   Gets a single house.
@@ -52,16 +53,18 @@ defmodule BuddiesBackend.Houses do
       ** (Ecto.NoResultsError)
 
   """
-def get_house!(id) do
-  from(h in House,
-    where: h.id == ^id,
-    join: uh in UserHouse, on: uh.house_id == h.id and uh.type == :owner,
-    join: u in User, on: u.id == uh.user_id,
-    select: {h, u}
-  )
-  |> Repo.one!()
-end
-
+  def get_house!(nil), do: nil
+  def get_house!(id) do
+    from(h in House,
+      where: h.id == ^id,
+      join: uh in UserHouse,
+      on: uh.house_id == h.id and uh.type == :owner,
+      join: u in User,
+      on: u.id == uh.user_id,
+      select: {h, u}
+    )
+    |> Repo.one!()
+  end
 
   @doc """
   Creates a house, assigns the user as the owner, and creates associated management entities.
@@ -95,15 +98,15 @@ end
       {:ok, shopping_cart} = ShoppingCarts.create_shopping_cart(%{management_id: management.id})
       {:ok, todo_list} = TodoLists.create_todo_list(%{management_id: management.id})
 
-
-      Managements.update_management(management,
-      %{
-        bill_spliter_id: bill_spliter.id,
-        calendar_id: calendar.id,
-        shopping_cart: shopping_cart.id,
-        todo_list: todo_list.id
-      })
-
+      Managements.update_management(
+        management,
+        %{
+          bill_spliter_id: bill_spliter.id,
+          calendar_id: calendar.id,
+          shopping_cart: shopping_cart.id,
+          todo_list: todo_list.id
+        }
+      )
 
       house
     end)
@@ -144,8 +147,10 @@ end
 
   """
   def delete_house(%House{} = house) do
+    house_id = house.id
+
     Repo.transaction(fn ->
-      from(uh in UserHouse, where: uh.house_id == ^house.id)
+      from(uh in UserHouse, where: uh.house_id == ^house_id)
       |> Repo.delete_all()
 
       Repo.delete(house)
@@ -168,7 +173,6 @@ end
   def change_house(%House{} = house, attrs \\ %{}) do
     House.changeset(house, attrs)
   end
-
 
   @doc """
   Returns the list of user_houses.
@@ -266,7 +270,6 @@ end
   def change_user_house(%UserHouse{} = user_house, attrs \\ %{}) do
     UserHouse.changeset(user_house, attrs)
   end
-
 
   def get_house_residents(house_id) do
     from(uh in UserHouse,

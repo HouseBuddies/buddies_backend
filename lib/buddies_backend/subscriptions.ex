@@ -38,17 +38,17 @@ defmodule BuddiesBackend.Subscriptions do
   """
   def get_subscription!(id), do: Repo.get!(Subscription, id)
 
-
   def get_subscription_by_house_id!(house_id) do
-    from(s in Subscription, where: s.house_id == ^house_id)
-    |> Repo.one()
+    {house, _user} = Houses.get_house!(house_id)
+
+    %{house: house, subscription: Repo.get!(Subscription, house.subscription_id)}
   end
 
   @doc """
   Creates a subscription.
 
   ## Examples
-
+  a
       iex> create_subscription(%{field: value})
       {:ok, %Subscription{}}
 
@@ -57,11 +57,16 @@ defmodule BuddiesBackend.Subscriptions do
 
   """
   def create_subscription(attrs \\ %{}) do
+    house_id = Map.get(attrs, "house_id", Map.get(attrs, :house_id))
+    attrs = Map.delete(attrs, "house_id")
+
     Repo.transaction(fn ->
       case %Subscription{}
            |> Subscription.changeset(attrs)
            |> Repo.insert() do
         {:ok, subscription} ->
+          {house, _user} = Houses.get_house!(house_id)
+          Houses.update_house(house, %{subscription_id: subscription.id})
           {:ok, subscription}
 
         {:error, changeset} ->
@@ -100,9 +105,8 @@ defmodule BuddiesBackend.Subscriptions do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_subscription(%Subscription{} = subscription) do
+  def delete_subscription(%Subscription{} = subscription, house) do
     Repo.transaction(fn ->
-      house = Houses.get_house!(subscription.house_id)
       # I'm not proud of this code below but we didn't had a big amount of hours
       Houses.update_house(house, %{subscription_id: nil})
       update_subscription(subscription, %{end_date: DateTime.utc_now()})

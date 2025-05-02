@@ -16,11 +16,28 @@ defmodule BuddiesBackendWeb.HouseJSON do
     %{data: data(house)}
   end
 
-  defp data({%House{} = house, %User{} = user}) do
+  defp data(%House{} = house) do
     %{
       id: house.id,
       image: house.image,
-      rent: house.rent,
+      address: house.address,
+      min_rent: house.min_rent,
+      max_rent: house.max_rent,
+      available_date: house.available_date,
+      max_residents: house.max_residents,
+      rooms: house.rooms,
+      tags: house.tags
+    }
+  end
+
+  defp data({%House{subscription_id: nil} = house, %User{} = user}) do
+    IO.inspect(house)
+
+    %{
+      id: house.id,
+      image: house.image,
+      min_rent: house.min_rent,
+      max_rent: house.max_rent,
       rooms: house.rooms,
       available_date: house.available_date,
       address: house.address,
@@ -35,6 +52,39 @@ defmodule BuddiesBackendWeb.HouseJSON do
         location: user.location,
         confirmed_at: user.confirmed_at,
         first_time_login: user.first_time_login
+      },
+      subscription: nil
+    }
+  end
+
+  defp data({%House{} = house, %User{} = user}) do
+    IO.inspect(house)
+
+    %{
+      id: house.id,
+      image: house.image,
+      min_rent: house.min_rent,
+      max_rent: house.max_rent,
+      rooms: house.rooms,
+      available_date: house.available_date,
+      address: house.address,
+      max_residents: house.max_residents,
+      tags: house.tags,
+      created_at: house.inserted_at,
+      owner: %{
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        age: user.age,
+        location: user.location,
+        confirmed_at: user.confirmed_at,
+        first_time_login: user.first_time_login
+      },
+      subscription: %{
+        id: house.subscription.id,
+        start_date: house.subscription.start_date,
+        end_date: house.subscription.end_date,
+        price: house.subscription.price
       }
     }
   end

@@ -5,12 +5,8 @@ defmodule BuddiesBackendWeb.SubscriptionControllerTest do
 
   alias BuddiesBackend.Subscriptions.Subscription
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BuddiesBackendWeb.SubscriptionControllerTest do
   describe "update subscription" do
     setup [:create_subscription]
 
-    test "renders subscription when data is valid", %{conn: conn, subscription: %Subscription{id: id} = subscription} do
+    test "renders subscription when data is valid", %{
+      conn: conn,
+      subscription: %Subscription{id: id} = subscription
+    } do
       conn = put(conn, ~p"/api/subscriptions/#{subscription}", subscription: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

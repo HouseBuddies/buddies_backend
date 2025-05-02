@@ -43,7 +43,8 @@ defmodule BuddiesBackendWeb.UserHouseController do
   def update(conn, %{"id" => id, "user_house" => user_house_params}) do
     user_house = Houses.get_user_house!(id)
 
-    with {:ok, %UserHouse{} = user_house} <- Houses.update_user_house(user_house, user_house_params) do
+    with {:ok, %UserHouse{} = user_house} <-
+           Houses.update_user_house(user_house, user_house_params) do
       render(conn, :show, user_house: user_house)
     end
   end

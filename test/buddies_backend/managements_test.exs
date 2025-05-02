@@ -34,12 +34,16 @@ defmodule BuddiesBackend.ManagementsTest do
       management = management_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Management{} = management} = Managements.update_management(management, update_attrs)
+      assert {:ok, %Management{} = management} =
+               Managements.update_management(management, update_attrs)
     end
 
     test "update_management/2 with invalid data returns error changeset" do
       management = management_fixture()
-      assert {:error, %Ecto.Changeset{}} = Managements.update_management(management, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Managements.update_management(management, @invalid_attrs)
+
       assert management == Managements.get_management!(management.id)
     end
 

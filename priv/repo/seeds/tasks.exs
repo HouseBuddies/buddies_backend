@@ -22,7 +22,7 @@ defmodule BuddiesBackend.Repo.Seeds.Tasks do
   end
 
   def seed_tasks do
-    todo_lists = TodoLists.list_todolists()
+    todo_lists = TodoLists.list_todolists() |> Enum.take(3)
 
     for todo_list <- todo_lists do
       for task <- @tasks do

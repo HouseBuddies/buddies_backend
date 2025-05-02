@@ -16,7 +16,6 @@ defmodule BuddiesBackendWeb.UserHouseJSON do
   end
 
   defp data(%UserHouse{} = user_house) do
-    IO.inspect(user_house, label: "UH")
     %{
       id: user_house.id,
       user: %{

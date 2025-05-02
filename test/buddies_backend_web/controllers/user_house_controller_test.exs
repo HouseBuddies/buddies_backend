@@ -5,12 +5,8 @@ defmodule BuddiesBackendWeb.UserHouseControllerTest do
 
   alias BuddiesBackend.Houses.UserHouse
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BuddiesBackendWeb.UserHouseControllerTest do
   describe "update user_house" do
     setup [:create_user_house]
 
-    test "renders user_house when data is valid", %{conn: conn, user_house: %UserHouse{id: id} = user_house} do
+    test "renders user_house when data is valid", %{
+      conn: conn,
+      user_house: %UserHouse{id: id} = user_house
+    } do
       conn = put(conn, ~p"/api/user_houses/#{user_house}", user_house: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

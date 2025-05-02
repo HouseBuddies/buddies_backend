@@ -5,8 +5,6 @@ defmodule BuddiesBackend.Managements.Calendar do
   @optional_fields ~w()
 
   schema "calendars" do
-
-
     timestamps(type: :utc_datetime)
   end
 

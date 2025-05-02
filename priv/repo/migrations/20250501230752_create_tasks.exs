@@ -8,6 +8,7 @@ defmodule BuddiesBackend.Repo.Migrations.CreateTasks do
       add :description, :string
       add :due_date, :utc_datetime
       add :finished, :boolean, default: false, null: false
+      add :creator_id, references(:users, type: :binary_id, on_delete: :delete_all)
       add :todo_list_id, references(:todolists, type: :binary_id, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)

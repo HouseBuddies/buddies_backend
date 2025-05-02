@@ -10,9 +10,7 @@ defmodule BuddiesBackend.SubscriptionsFixtures do
   def subscription_fixture(attrs \\ %{}) do
     {:ok, subscription} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BuddiesBackend.Subscriptions.create_subscription()
 
     subscription

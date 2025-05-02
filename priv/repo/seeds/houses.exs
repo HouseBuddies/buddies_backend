@@ -20,7 +20,8 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
     users = Accounts.list_users()
 
     for address <- @addresses do
-      rent = Enum.random(500..1500)
+      min_rent = Enum.random(250..400)
+      max_rent = Enum.random(500..1500)
       rooms = Enum.random(1..5)
       available_date = DateTime.utc_now() |> DateTime.add(Enum.random(0..30), :second)
 
@@ -30,7 +31,8 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
       attrs = %{
         "image" => image_url,
         "address" => address,
-        "rent" => rent,
+        "min_rent" => min_rent,
+        "max_rent" => max_rent,
         "rooms" => rooms,
         "available_date" => available_date,
         "owner_id" => owner.id
@@ -38,7 +40,7 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
 
       case Houses.create_house(attrs) do
         {:ok, house} ->
-          Mix.shell().info("Created house: #{house.address} (#{house.rent})")
+          Mix.shell().info("Created house: #{house.address} (#{house.min_rent} - #{house.max_rent})")
 
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))
@@ -52,41 +54,32 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
     users = Accounts.list_users()
     houses = Houses.list_houses()
 
-    for house <- houses do
-      # Ensure only one owner per house
-      owner = Enum.find(users, fn user -> user.id == house.owner_id end)
+    for {house, user} <- houses do
+      IO.inspect(house)
+      attrs = %{
+        "user_id" => user.id,
+        "house_id" => house.id,
+        "type" => :owner,
+        "status" => :active
+      }
 
-      if owner do
-        attrs = %{
-          "user_id" => owner.id,
-          "house_id" => house.id,
-          "type" => :owner,
-          "status" => :active
-        }
-
-        case UserHouse.changeset(%UserHouse{}, attrs) |> Repo.insert() do
-          {:ok, _user_house} ->
-            Mix.shell().info("Created user_house: #{owner.name} (#{owner.email}) as owner")
-
-          {:error, changeset} ->
-            Mix.shell().error(Kernel.inspect(changeset.errors))
-        end
+      case UserHouse.changeset(%UserHouse{}, attrs) |> Repo.insert() do
+        {:ok, _user_house} ->
+          Mix.shell().info("Created successfully !")
+        {:error, changeset} ->
+          Mix.shell().error(Kernel.inspect(changeset.errors))
       end
 
-      # Add other users as residents
-      other_users = Enum.reject(users, fn user -> user.id == house.owner_id end)
-
-      for user <- other_users do
+      for user <- users do
         attrs = %{
           "user_id" => user.id,
           "house_id" => house.id,
           "type" => :resident,
-          "status" => Enum.random([:active, :inactive])
         }
 
         case UserHouse.changeset(%UserHouse{}, attrs) |> Repo.insert() do
           {:ok, _user_house} ->
-            Mix.shell().info("Created user_house: #{user.name} (#{user.email}) as resident")
+            Mix.shell().info("Created successfully !")
 
           {:error, changeset} ->
             Mix.shell().error(Kernel.inspect(changeset.errors))
@@ -94,6 +87,7 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
       end
     end
   end
+
 end
 
 BuddiesBackend.Repo.Seeds.Houses.run()

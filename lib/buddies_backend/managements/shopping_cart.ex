@@ -2,8 +2,6 @@ defmodule BuddiesBackend.Managements.ShoppingCart do
   use BuddiesBackend.Schema
 
   schema "shoppingcarts" do
-
-
     timestamps(type: :utc_datetime)
   end
 

@@ -23,7 +23,8 @@ defmodule BuddiesBackend.ShoppingCartsTest do
     test "create_shopping_cart/1 with valid data creates a shopping_cart" do
       valid_attrs = %{}
 
-      assert {:ok, %ShoppingCart{} = shopping_cart} = ShoppingCarts.create_shopping_cart(valid_attrs)
+      assert {:ok, %ShoppingCart{} = shopping_cart} =
+               ShoppingCarts.create_shopping_cart(valid_attrs)
     end
 
     test "create_shopping_cart/1 with invalid data returns error changeset" do
@@ -34,19 +35,26 @@ defmodule BuddiesBackend.ShoppingCartsTest do
       shopping_cart = shopping_cart_fixture()
       update_attrs = %{}
 
-      assert {:ok, %ShoppingCart{} = shopping_cart} = ShoppingCarts.update_shopping_cart(shopping_cart, update_attrs)
+      assert {:ok, %ShoppingCart{} = shopping_cart} =
+               ShoppingCarts.update_shopping_cart(shopping_cart, update_attrs)
     end
 
     test "update_shopping_cart/2 with invalid data returns error changeset" do
       shopping_cart = shopping_cart_fixture()
-      assert {:error, %Ecto.Changeset{}} = ShoppingCarts.update_shopping_cart(shopping_cart, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               ShoppingCarts.update_shopping_cart(shopping_cart, @invalid_attrs)
+
       assert shopping_cart == ShoppingCarts.get_shopping_cart!(shopping_cart.id)
     end
 
     test "delete_shopping_cart/1 deletes the shopping_cart" do
       shopping_cart = shopping_cart_fixture()
       assert {:ok, %ShoppingCart{}} = ShoppingCarts.delete_shopping_cart(shopping_cart)
-      assert_raise Ecto.NoResultsError, fn -> ShoppingCarts.get_shopping_cart!(shopping_cart.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        ShoppingCarts.get_shopping_cart!(shopping_cart.id)
+      end
     end
 
     test "change_shopping_cart/1 returns a shopping_cart changeset" do

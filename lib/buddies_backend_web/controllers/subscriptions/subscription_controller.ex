@@ -11,8 +11,23 @@ defmodule BuddiesBackendWeb.SubscriptionController do
     render(conn, :index, subscriptions: subscriptions)
   end
 
-  def create(conn, %{"subscription" => subscription_params}) do
-    with {:ok, %Subscription{} = subscription} <- Subscriptions.create_subscription(subscription_params) do
+  def create(conn, %{
+        "end_date" => end_date,
+        "house_id" => house_id,
+        "plan_id" => plan_id,
+        "price" => price,
+        "start_date" => start_date
+      }) do
+    subscription_params = %{
+      "start_date" => start_date,
+      "end_date" => end_date,
+      "house_id" => house_id,
+      "plan_id" => plan_id,
+      "price" => price
+    }
+
+    with {:ok, {:ok, %Subscription{} = subscription}} <-
+           Subscriptions.create_subscription(subscription_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/subscriptions/#{subscription}")
@@ -28,15 +43,17 @@ defmodule BuddiesBackendWeb.SubscriptionController do
   def update(conn, %{"id" => id, "subscription" => subscription_params}) do
     subscription = Subscriptions.get_subscription!(id)
 
-    with {:ok, %Subscription{} = subscription} <- Subscriptions.update_subscription(subscription, subscription_params) do
+    with {:ok, %Subscription{} = subscription} <-
+           Subscriptions.update_subscription(subscription, subscription_params) do
       render(conn, :show, subscription: subscription)
     end
   end
 
   def delete(conn, %{"house_id" => house_id}) do
-    subscription = Subscriptions.get_subscription_by_house_id!(house_id)
+    %{subscription: subscription, house: house} =
+      Subscriptions.get_subscription_by_house_id!(house_id)
 
-    with {:ok, %Subscription{}} <- Subscriptions.delete_subscription(subscription) do
+    with {:ok, {:ok, %Subscription{}}} <- Subscriptions.delete_subscription(subscription, house) do
       send_resp(conn, :no_content, "")
     end
   end

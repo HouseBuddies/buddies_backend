@@ -3,7 +3,7 @@ defmodule BuddiesBackend.Tasks.Task do
   alias BuddiesBackend.Tasks.TodoList
   alias BuddiesBackend.Accounts.User
 
-  @required_fields ~w(description title due_date description todo_list_id)a
+  @required_fields ~w(description title due_date description todo_list_id creator_id)a
   @optional_fields ~w(finished)a
 
   schema "tasks" do
@@ -12,6 +12,7 @@ defmodule BuddiesBackend.Tasks.Task do
     field :title, :string
     field :due_date, :utc_datetime
     belongs_to :todo_list, TodoList
+    belongs_to :creator, User
     has_many :assigned, User
 
     timestamps(type: :utc_datetime)

@@ -10,9 +10,7 @@ defmodule BuddiesBackend.TodoListsFixtures do
   def todo_list_fixture(attrs \\ %{}) do
     {:ok, todo_list} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> BuddiesBackend.TodoLists.create_todo_list()
 
     todo_list

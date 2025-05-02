@@ -5,12 +5,8 @@ defmodule BuddiesBackendWeb.BillSpliterControllerTest do
 
   alias BuddiesBackend.Managements.BillSpliter
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BuddiesBackendWeb.BillSpliterControllerTest do
   describe "update bill_spliter" do
     setup [:create_bill_spliter]
 
-    test "renders bill_spliter when data is valid", %{conn: conn, bill_spliter: %BillSpliter{id: id} = bill_spliter} do
+    test "renders bill_spliter when data is valid", %{
+      conn: conn,
+      bill_spliter: %BillSpliter{id: id} = bill_spliter
+    } do
       conn = put(conn, ~p"/api/billspliters/#{bill_spliter}", bill_spliter: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

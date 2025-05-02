@@ -1,5 +1,4 @@
 defmodule BuddiesBackend.Subscriptions.Subscription do
-
   use BuddiesBackend.Schema
   alias BuddiesBackend.Plans.Plan
 
@@ -11,7 +10,6 @@ defmodule BuddiesBackend.Subscriptions.Subscription do
     field :end_date, :utc_datetime
     field :price, :decimal
     belongs_to :plan, Plan
-
 
     timestamps(type: :utc_datetime)
   end

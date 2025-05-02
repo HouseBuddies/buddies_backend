@@ -5,12 +5,8 @@ defmodule BuddiesBackendWeb.ShoppingCartControllerTest do
 
   alias BuddiesBackend.Managements.ShoppingCart
 
-  @create_attrs %{
-
-  }
-  @update_attrs %{
-
-  }
+  @create_attrs %{}
+  @update_attrs %{}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -45,7 +41,10 @@ defmodule BuddiesBackendWeb.ShoppingCartControllerTest do
   describe "update shopping_cart" do
     setup [:create_shopping_cart]
 
-    test "renders shopping_cart when data is valid", %{conn: conn, shopping_cart: %ShoppingCart{id: id} = shopping_cart} do
+    test "renders shopping_cart when data is valid", %{
+      conn: conn,
+      shopping_cart: %ShoppingCart{id: id} = shopping_cart
+    } do
       conn = put(conn, ~p"/api/shoppingcarts/#{shopping_cart}", shopping_cart: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

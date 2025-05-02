@@ -6,7 +6,8 @@ defmodule BuddiesBackend.Repo.Migrations.CreateHouses do
       add :id, :binary_id, primary_key: true
 
       add :image, :string
-      add :rent, :decimal
+      add :max_rent, :decimal
+      add :min_rent, :decimal
       add :rooms, :integer
       add :available_date, :utc_datetime
       add :max_residents, :integer, default: 5

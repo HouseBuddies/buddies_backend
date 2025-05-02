@@ -21,7 +21,12 @@ defmodule BuddiesBackend.TasksTest do
     end
 
     test "create_task/1 with valid data creates a task" do
-      valid_attrs = %{finished: true, description: "some description", title: "some title", due_date: ~U[2025-04-30 23:07:00Z]}
+      valid_attrs = %{
+        finished: true,
+        description: "some description",
+        title: "some title",
+        due_date: ~U[2025-04-30 23:07:00Z]
+      }
 
       assert {:ok, %Task{} = task} = Tasks.create_task(valid_attrs)
       assert task.finished == true
@@ -36,7 +41,13 @@ defmodule BuddiesBackend.TasksTest do
 
     test "update_task/2 with valid data updates the task" do
       task = task_fixture()
-      update_attrs = %{finished: false, description: "some updated description", title: "some updated title", due_date: ~U[2025-05-01 23:07:00Z]}
+
+      update_attrs = %{
+        finished: false,
+        description: "some updated description",
+        title: "some updated title",
+        due_date: ~U[2025-05-01 23:07:00Z]
+      }
 
       assert {:ok, %Task{} = task} = Tasks.update_task(task, update_attrs)
       assert task.finished == false

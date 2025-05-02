@@ -28,7 +28,8 @@ defmodule BuddiesBackendWeb.ManagementController do
   def update(conn, %{"id" => id, "management" => management_params}) do
     management = Managements.get_management!(id)
 
-    with {:ok, %Management{} = management} <- Managements.update_management(management, management_params) do
+    with {:ok, %Management{} = management} <-
+           Managements.update_management(management, management_params) do
       render(conn, :show, management: management)
     end
   end

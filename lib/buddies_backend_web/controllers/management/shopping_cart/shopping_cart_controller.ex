@@ -12,7 +12,8 @@ defmodule BuddiesBackendWeb.ShoppingCartController do
   end
 
   def create(conn, %{"shopping_cart" => shopping_cart_params}) do
-    with {:ok, %ShoppingCart{} = shopping_cart} <- ShoppingCarts.create_shopping_cart(shopping_cart_params) do
+    with {:ok, %ShoppingCart{} = shopping_cart} <-
+           ShoppingCarts.create_shopping_cart(shopping_cart_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/shoppingcarts/#{shopping_cart}")
@@ -28,7 +29,8 @@ defmodule BuddiesBackendWeb.ShoppingCartController do
   def update(conn, %{"id" => id, "shopping_cart" => shopping_cart_params}) do
     shopping_cart = ShoppingCarts.get_shopping_cart!(id)
 
-    with {:ok, %ShoppingCart{} = shopping_cart} <- ShoppingCarts.update_shopping_cart(shopping_cart, shopping_cart_params) do
+    with {:ok, %ShoppingCart{} = shopping_cart} <-
+           ShoppingCarts.update_shopping_cart(shopping_cart, shopping_cart_params) do
       render(conn, :show, shopping_cart: shopping_cart)
     end
   end

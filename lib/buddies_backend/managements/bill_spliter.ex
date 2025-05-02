@@ -5,8 +5,6 @@ defmodule BuddiesBackend.Managements.BillSpliter do
   @optional_fields ~w()
 
   schema "billspliters" do
-
-
     timestamps(type: :utc_datetime)
   end
 

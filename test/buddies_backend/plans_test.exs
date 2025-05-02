@@ -35,7 +35,12 @@ defmodule BuddiesBackend.PlansTest do
 
     test "update_plan/2 with valid data updates the plan" do
       plan = plan_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", price: "456.7"}
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        price: "456.7"
+      }
 
       assert {:ok, %Plan{} = plan} = Plans.update_plan(plan, update_attrs)
       assert plan.name == "some updated name"
