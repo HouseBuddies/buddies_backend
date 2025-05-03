@@ -63,7 +63,16 @@ defmodule BuddiesBackend.Activities do
     %Activity{}
     |> Activity.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, activity} ->
+        activity = Repo.preload(activity, :created_by)
+        {:ok, activity}
+
+      error ->
+        error
+    end
   end
+
 
   @doc """
   Updates a activity.

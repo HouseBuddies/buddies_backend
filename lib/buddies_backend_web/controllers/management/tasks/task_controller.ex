@@ -2,6 +2,7 @@ defmodule BuddiesBackendWeb.TaskController do
   use BuddiesBackendWeb, :controller
 
   alias BuddiesBackend.Tasks
+  alias BuddiesBackend.TodoLists
   alias BuddiesBackend.Tasks.Task
 
   action_fallback BuddiesBackendWeb.FallbackController
@@ -12,16 +13,18 @@ defmodule BuddiesBackendWeb.TaskController do
     render(conn, :index, tasks: tasks)
   end
 
-  def create(conn, attrs) do
-    with {:ok, due_date_str} <- Map.fetch(attrs, "due_date"),
-        {:ok, datetime, _offset} <- DateTime.from_iso8601(due_date_str),
-        todo_list_id <- Map.get(attrs, "todo_list_id"),
-        merged_attrs <-
-          attrs
-          |> Map.drop(["due_date"])
-          |> Map.merge(%{"due_date" => datetime, "todo_list_id" => todo_list_id}),
-        {:ok, %Task{} = task} <- Tasks.create_task(merged_attrs) do
+  def create(conn, %{"creator_id" => creator_id, "house_id" => house_id, "task" => task_params}) do
+    todo_list = TodoLists.get_todo_list_by_house_id(house_id)
 
+    task_params =
+      task_params
+      |> Map.put("creator_id", creator_id)
+      |> Map.put("todo_list_id", todo_list.id)
+
+
+    IO.inspect(task_params, label: "Task Params")
+
+    with {:ok, %Task{} = task} <- Tasks.create_task(task_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/tasks/#{task}")

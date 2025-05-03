@@ -65,6 +65,14 @@ defmodule BuddiesBackend.Tasks do
     %Task{}
     |> Task.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, task} ->
+        task = Repo.preload(task, :creator)
+        {:ok, task}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

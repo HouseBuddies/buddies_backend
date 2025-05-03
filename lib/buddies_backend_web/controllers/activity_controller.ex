@@ -3,6 +3,7 @@ defmodule BuddiesBackendWeb.ActivityController do
 
   alias BuddiesBackend.Activities
   alias BuddiesBackend.Activities.Activity
+  alias BuddiesBackend.Calendars
 
   action_fallback BuddiesBackendWeb.FallbackController
 
@@ -11,7 +12,16 @@ defmodule BuddiesBackendWeb.ActivityController do
     render(conn, :index, activities: activities)
   end
 
-  def create(conn, %{"activity" => activity_params}) do
+  def create(conn, %{"activity" => activity_params, "created_by_id" => created_by_id, "house_id" => house_id}) do
+    calendar = Calendars.get_calendar_by_house_id(house_id)
+
+    activity_params =
+      activity_params
+      |> Map.put("created_by_id", created_by_id)
+      |> Map.put("calendar_id", calendar.id)
+
+    IO.inspect(activity_params, label: "Activity Params")
+
     with {:ok, %Activity{} = activity} <- Activities.create_activity(activity_params) do
       conn
       |> put_status(:created)

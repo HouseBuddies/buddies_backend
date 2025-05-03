@@ -3,7 +3,7 @@ defmodule BuddiesBackend.Tasks.Task do
   alias BuddiesBackend.Tasks.TodoList
   alias BuddiesBackend.Accounts.User
 
-  @required_fields ~w(description title due_date description todo_list_id creator_id)a
+  @required_fields ~w(description title due_date todo_list_id creator_id)a
   @optional_fields ~w(finished)a
 
   schema "tasks" do

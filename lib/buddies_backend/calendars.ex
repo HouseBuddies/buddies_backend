@@ -101,4 +101,13 @@ defmodule BuddiesBackend.Calendars do
   def change_calendar(%Calendar{} = calendar, attrs \\ %{}) do
     Calendar.changeset(calendar, attrs)
   end
+
+
+  def get_calendar_by_house_id(house_id) do
+    from(c in Calendar,
+      join: m in assoc(c, :management),
+      where: m.house_id == ^house_id
+    )
+    |> Repo.one()
+  end
 end

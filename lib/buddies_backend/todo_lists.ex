@@ -101,4 +101,13 @@ defmodule BuddiesBackend.TodoLists do
   def change_todo_list(%TodoList{} = todo_list, attrs \\ %{}) do
     TodoList.changeset(todo_list, attrs)
   end
+
+
+  def get_todo_list_by_house_id(house_id) do
+    from(tl in TodoList,
+      join: m in assoc(tl, :management),
+      where: m.house_id == ^house_id
+    )
+    |> Repo.one()
+  end
 end
