@@ -47,3 +47,23 @@ Rua dos Fanqueiros 150, 1100-231 Lisboa, Portugal
 Rua de Santa Catarina 400, 4000-447 Porto, Portugal
 Rua do Crucifixo 100, 1100-184 Lisboa, Portugal
 Rua de Fernandes Tomás 200, 4000-213 Porto, Portugal
+Rua do Souto 45, 4700-329 Braga, Portugal
+Avenida da Liberdade 150, 4710-251 Braga, Portugal
+Rua de São Marcos 88, 4700-306 Braga, Portugal
+Rua D. Diogo de Sousa 30, 4700-422 Braga, Portugal
+Rua do Raio 12, 4700-921 Braga, Portugal
+Largo da Senhora-a-Branca 18, 4710-443 Braga, Portugal
+Rua de Janes 40, 4700-313 Braga, Portugal
+Rua Dom Frei Caetano Brandão 60, 4700-031 Braga, Portugal
+Avenida Central 100, 4710-228 Braga, Portugal
+Rua Conde de Agrolongo 73, 4700-312 Braga, Portugal
+Rua dos Chãos 210, 4700-320 Braga, Portugal
+Rua de Santa Margarida 65, 4710-306 Braga, Portugal
+Rua dos Capelistas 33, 4700-307 Braga, Portugal
+Rua Dom Pedro V 122, 4710-374 Braga, Portugal
+Rua de Santo André 44, 4700-329 Braga, Portugal
+Rua do Anjo 95, 4700-305 Braga, Portugal
+Rua de São Vicente 28, 4710-311 Braga, Portugal
+Rua da Boavista 190, 4710-401 Braga, Portugal
+Rua dos Biscainhos 18, 4700-415 Braga, Portugal
+Rua das Fontainhas 51, 4700-228 Braga, Portugal
