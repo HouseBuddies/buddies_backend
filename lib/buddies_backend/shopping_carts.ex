@@ -101,4 +101,13 @@ defmodule BuddiesBackend.ShoppingCarts do
   def change_shopping_cart(%ShoppingCart{} = shopping_cart, attrs \\ %{}) do
     ShoppingCart.changeset(shopping_cart, attrs)
   end
+
+  def get_shopping_cart_by_house_id(house_id) do
+    from(s in ShoppingCart,
+      join: m in assoc(s, :management),
+      where: m.house_id == ^house_id,
+      select: s
+    )
+    |> Repo.one()
+  end
 end

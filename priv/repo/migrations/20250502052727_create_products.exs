@@ -9,6 +9,7 @@ defmodule BuddiesBackend.Repo.Migrations.CreateProducts do
       add :state, :string, default: "available"
       add :created_by_id, references(:users, type: :binary_id, on_delete: :delete_all)
       add :purchased_by_id, references(:users, type: :binary_id, on_delete: :delete_all)
+      add :shopping_cart_id, references(:shoppingcarts, type: :binary_id, on_delete: :delete_all)
 
       timestamps(type: :utc_datetime)
     end

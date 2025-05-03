@@ -14,7 +14,8 @@ defmodule BuddiesBackend.Repo.Seeds do
       "subscriptions.exs",
       "tasks.exs",
       "activities.exs",
-      "bills.exs"
+      "bills.exs",
+      "products.exs"
     ]
     |> Enum.each(fn file ->
       Code.require_file("#{@seeds_dir}/#{file}")

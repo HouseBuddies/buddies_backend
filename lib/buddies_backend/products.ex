@@ -53,6 +53,16 @@ defmodule BuddiesBackend.Products do
     %Product{}
     |> Product.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, product} ->
+        product =
+          product
+          |> Repo.preload(:created_by)
+        {:ok, product}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -71,6 +81,17 @@ defmodule BuddiesBackend.Products do
     product
     |> Product.changeset(attrs)
     |> Repo.update()
+    |> case do
+      {:ok, product} ->
+        product =
+          product
+          |> Repo.preload(:created_by)
+          |> Repo.preload(:purchased_by)
+        {:ok, product}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -100,5 +121,15 @@ defmodule BuddiesBackend.Products do
   """
   def change_product(%Product{} = product, attrs \\ %{}) do
     Product.changeset(product, attrs)
+  end
+
+  def list_products_by_house(house_id) do
+    from(p in Product,
+      join: s in assoc(p, :shopping_cart),
+      join: m in assoc(s, :management),
+      where: m.house_id == ^house_id,
+      preload: [:created_by, :purchased_by]
+    )
+    |> Repo.all()
   end
 end

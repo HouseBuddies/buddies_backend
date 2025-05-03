@@ -63,6 +63,14 @@ defmodule BuddiesBackendWeb.Router do
         put "/:id", BillController, :update
         delete "/:id", BillController, :delete
       end
+
+      scope "/:house_id/products" do
+        get "/", ProductController, :index
+        post "/", ProductController, :create
+        get "/:id", ProductController, :show
+        put "/:id", ProductController, :update
+        delete "/:id", ProductController, :delete
+      end
     end
 
     scope "/user_houses" do
