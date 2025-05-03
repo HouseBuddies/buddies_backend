@@ -20,6 +20,13 @@ if System.get_env("PHX_SERVER") do
   config :buddies_backend, BuddiesBackendWeb.Endpoint, server: true
 end
 
+config :buddies_backend, :gemini_api_key,
+  System.get_env("GEMINI_API_KEY") || raise """
+  environment variable GEMINI_API_KEY is missing.
+  For development, you can set it in a .env file or your shell.
+  For production, ensure it's set in your deployment environment.
+  """
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

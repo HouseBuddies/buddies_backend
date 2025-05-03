@@ -87,7 +87,9 @@ defmodule BuddiesBackendWeb.HouseController do
     {house, _, _} = Houses.get_house!(id)
     match_score = Houses.get_match_score(user_id, house |> Map.get(:id))
 
+    explanation = Houses.explain_match_score(user_id, house |> Map.get(:id))
+
     conn
-    |> send_resp(:ok, Jason.encode!(%{match_score: match_score}))
+    |> send_resp(:ok, Jason.encode!(%{match_score: match_score, explanation: explanation.explanation}))
   end
 end

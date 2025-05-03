@@ -46,7 +46,8 @@ defmodule BuddiesBackend.MixProject do
       {:corsica, "~> 2.0"},
       {:swoosh, "~> 1.7"},
       {:bcrypt_elixir, "~> 3.3.1"},
-      {:hackney, "~> 1.9"}
+      {:hackney, "~> 1.9"},
+      {:httpoison, "~> 2.2"}
     ]
   end
 

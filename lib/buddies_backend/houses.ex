@@ -423,6 +423,137 @@ defmodule BuddiesBackend.Houses do
       end)
 
     # Calculate the average score
-    if length(scores) > 0, do: Enum.sum(scores) / length(scores), else: 0
+    if length(scores) > 0, do: (Enum.sum(scores) / length(scores)) |> min(5), else: 0
+  end
+
+  def explain_match_score(user_id, house_id) do
+    user = Accounts.get_user!(user_id)
+    {house, _owner, _} = get_house!(house_id)
+
+    # Get all residents of the house
+    residents = list_house_residents(house.id)
+
+    # Calculate the similarity score for each resident
+    resident_scores = Enum.map(residents, fn resident ->
+      score = Accounts.similarity_score(user, resident)
+      %{
+        score: score,
+        age: resident.age,
+        gender: resident.gender,
+        occupation: resident.occupation,
+        work_schedule: resident.work_schedule,
+        desired_cleanliness: resident.desired_cleanliness,
+        noise_tolerance: resident.noise_tolerance,
+        sleep_schedule: resident.sleep_schedule,
+        smoker: resident.smoker,
+        alcohol: resident.alcohol,
+        visitors: resident.visitors
+      }
+    end)
+
+    # Create user profile data
+    user_profile = %{
+      name: user.name,
+      age: user.age,
+      gender: user.gender,
+      occupation: user.occupation,
+      work_schedule: user.work_schedule,
+      desired_cleanliness: user.desired_cleanliness,
+      noise_tolerance: user.noise_tolerance,
+      sleep_schedule: user.sleep_schedule,
+      smoker: user.smoker,
+      alcohol: user.alcohol,
+      visitors: user.visitors
+    }
+
+    # Calculate overall match score
+    overall_score = if length(resident_scores) > 0 do
+      (Enum.sum(Enum.map(resident_scores, & &1.score)) / length(resident_scores)) |> min(5)
+    else
+      0
+    end
+
+    # Prepare the prompt for Gemini AI
+    prompt = """
+    You are an AI assistant for a roommate matching application. Please provide a brief, friendly explanation (maximum 50 words) of why this user would be a good match for this house.
+    Put an emoji at the end of your text.
+    Visitors means how confortable the user is with having guests over. The higher the number, the more comfortable they are with it.
+    Talk directly to the user.
+
+    House information:
+    - Address: #{house.address}
+    - Monthly rent: $#{house.max_rent}
+    - Number of residents: #{length(residents)}
+    - Overall match score: #{Float.round(overall_score * 100, 1)}%
+
+    User profile:
+    #{Jason.encode!(user_profile, pretty: true)}
+
+    Resident profiles and individual match scores:
+    #{Jason.encode!(resident_scores, pretty: true)}
+
+    Focus on the top 3 compatibility factors that make this a good match. Be specific about shared preferences and lifestyle compatibility.
+    """ |> IO.inspect()
+
+    # Make API request to Gemini AI
+    api_key = Application.get_env(:buddies_backend, :gemini_api_key)
+
+    request_body = %{
+      contents: [
+        %{
+          parts: [
+            %{
+              text: prompt
+            }
+          ]
+        }
+      ],
+      generationConfig: %{
+        temperature: 0.7,
+        maxOutputTokens: 800,
+        topK: 40,
+        topP: 0.95
+      }
+    }
+
+    headers = [
+      {"Content-Type", "application/json"},
+      {"x-goog-api-key", api_key}
+    ]
+
+    case HTTPoison.post(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+      Jason.encode!(request_body),
+      headers
+    ) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        response = Jason.decode!(body)
+
+        # Extract the explanation text from the Gemini response
+        explanation = case response do
+          %{"candidates" => [%{"content" => %{"parts" => [%{"text" => text} | _]}} | _]} ->
+            text
+          _ ->
+            "We couldn't generate an explanation for your match score at this time."
+        end
+
+        # Return the explanation along with the match score
+        %{
+          score: overall_score,
+          explanation: explanation
+        } |> IO.inspect()
+
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        %{
+          score: overall_score,
+          explanation: "Error getting match explanation. Status code: #{status_code}"
+        } |> IO.inspect()
+
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        %{
+          score: overall_score,
+          explanation: "Error getting match explanation: #{inspect(reason)}"
+        } |> IO.inspect()
+    end
   end
 end
