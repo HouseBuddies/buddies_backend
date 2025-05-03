@@ -65,9 +65,20 @@ defmodule BuddiesBackendWeb.UserHouseController do
   end
 
   def get_user_favorite_houses(conn, %{"user_id" => user_id}) do
-    user_houses = Houses.get_user_favorite_houses(user_id)
-    render(conn, :index, user_houses: user_houses)
+    # get_user_favorite_houses/1 now returns a list of {house, owner} tuples
+    favorites = Houses.get_user_favorite_houses(user_id)
+
+    houses_with_owner =
+      Enum.map(favorites, fn
+        {house, owner} ->
+          # add the owner into the house struct or map
+          Map.put(house, :owner, owner)
+      end)
+
+    render(conn, :index, user_houses: houses_with_owner)
   end
+
+
 
   def join_house(conn, %{"house_id" => house_id, "user_id" => user_id} = _attrs) do
     with {:ok, %UserHouse{} = user_house} <- Houses.join_house(house_id, user_id) do

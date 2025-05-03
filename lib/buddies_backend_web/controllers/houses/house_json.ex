@@ -26,6 +26,26 @@ defmodule BuddiesBackendWeb.HouseJSON do
       available_date: house.available_date,
       max_residents: house.max_residents,
       rooms: house.rooms,
+      tags: house.tags,
+      owner: %{
+        name: house.owner.name,
+        email: house.owner.email,
+        age: house.owner.age,
+        photo: house.owner.photo,
+      }
+    }
+  end
+
+  defp data(%House{} = house) do
+    %{
+      id: house.id,
+      image: house.image,
+      address: house.address,
+      min_rent: house.min_rent,
+      max_rent: house.max_rent,
+      available_date: house.available_date,
+      max_residents: house.max_residents,
+      rooms: house.rooms,
       tags: house.tags
     }
   end

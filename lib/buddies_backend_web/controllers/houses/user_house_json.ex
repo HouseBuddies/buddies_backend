@@ -10,6 +10,10 @@ defmodule BuddiesBackendWeb.UserHouseJSON do
     %{data: for(user_house <- user_houses, do: data(user_house))}
   end
 
+  def index_special(%{user_houses: user_houses}) do
+    %{data: for(user_house <- user_houses, do: data(user_house))}
+  end
+
   @doc """
   Renders a single user_house.
   """
@@ -47,16 +51,30 @@ defmodule BuddiesBackendWeb.UserHouseJSON do
     }
   end
 
+  defp data(%House{} = house) do
+    %{
+      house: %{
+        id: house.id,
+        image: house.image,
+        address: house.address,
+        min_rent: house.min_rent,
+        max_rent: house.max_rent,
+        available_date: house.available_date,
+        max_residents: house.max_residents,
+        rooms: house.rooms,
+        tags: house.tags,
+        owner: %{
+          id: house.owner.id,
+          name: house.owner.name,
+          email: house.owner.email,
+          photo: house.owner.photo
+        }
+      }
+    }
+  end
 
   defp data(%UserHouse{type: :favorite} = user_house) do
     %{
-      id: user_house.id,
-      user: %{
-        id: user_house.user.id,
-        name: user_house.user.name,
-        email: user_house.user.email,
-        age: user_house.user.age,
-      },
       house: %{
         id: user_house.house.id,
         image: user_house.house.image,

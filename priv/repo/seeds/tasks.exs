@@ -11,7 +11,6 @@ defmodule BuddiesBackend.Repo.Seeds.Tasks do
   @tasks File.read!("priv/fake/tasks.txt") |> String.split("\n")
 
   def run do
-    # Check if tasks already exist
     case BuddiesBackend.Tasks.list_tasks() do
       [] ->
         seed_tasks()

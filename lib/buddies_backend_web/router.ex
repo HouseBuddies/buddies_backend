@@ -37,6 +37,7 @@ defmodule BuddiesBackendWeb.Router do
       get "/:id/residents", UserHouseController, :show_house_residents
       get "/:id/owner", UserHouseController, :show_house_owner
       get "/:id/matches", UserHouseController, :show_house_matches
+      get "/:id/favorites", UserHouseController, :show_house_favorites
       post "/:house_id/favorite", UserHouseController, :favorite_house
       delete "/:house_id/favorite", UserHouseController, :remove_favorite_house
       get "/:user_id/favorite_houses", UserHouseController, :get_user_favorite_houses
@@ -45,6 +46,7 @@ defmodule BuddiesBackendWeb.Router do
       delete "/:house_id/join", UserHouseController, :remove_join_house
       get "/:house_id/:user_id/is_member", UserHouseController, :is_member
       get "/living/:user_id", UserHouseController, :get_user_houses
+      get "/:house_id/activities", ActivityController, :index
 
       scope "/:house_id/tasks" do
         get "/", TaskController, :index
@@ -67,6 +69,10 @@ defmodule BuddiesBackendWeb.Router do
       # Match, Bookmark
       post "/", UserHouseController, :create
       delete "/:id", UserHouseController, :delete
+    end
+
+    scope "/tasks" do
+      put "/:id", TaskController, :update
     end
 
     get "/plan/:name", PlanController, :show

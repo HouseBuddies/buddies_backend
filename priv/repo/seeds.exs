@@ -13,6 +13,7 @@ defmodule BuddiesBackend.Repo.Seeds do
       "plans.exs",
       "subscriptions.exs",
       "tasks.exs",
+      "activities.exs",
       "bills.exs"
     ]
     |> Enum.each(fn file ->

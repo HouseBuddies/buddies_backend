@@ -330,9 +330,11 @@ defmodule BuddiesBackend.Houses do
   def get_user_favorite_houses(user_id) do
     from(uh in UserHouse,
       where: uh.user_id == ^user_id and uh.type == :favorite,
-      join: u in assoc(uh, :user),
       join: h in assoc(uh, :house),
-      preload: [user: u, house: h]
+      join: owner_uh in UserHouse,
+      on: owner_uh.house_id == h.id and owner_uh.type == :owner,
+      join: owner in assoc(owner_uh, :user),
+      select: {h, owner}
     )
     |> Repo.all()
   end

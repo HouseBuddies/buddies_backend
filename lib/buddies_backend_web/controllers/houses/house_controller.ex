@@ -49,7 +49,8 @@ defmodule BuddiesBackendWeb.HouseController do
   end
 
   def show(conn, %{"id" => id}) do
-    {house, _, _} = Houses.get_house!(id)
+    {house, user, _} = Houses.get_house!(id)
+    house = Map.put(house, :owner, user)
     render(conn, :show, house: house)
   end
 
