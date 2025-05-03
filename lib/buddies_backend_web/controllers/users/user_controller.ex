@@ -59,12 +59,10 @@ defmodule BuddiesBackendWeb.UserController do
   def update_preferences(conn, params) do
     user = conn.assigns[:current_user]
 
-    IO.inspect(params)
-
     # Update first login to false.
     Accounts.update_user_first_login(user)
 
-    case User.preferences_changeset(user, params) |> Repo.update() |> IO.inspect() do
+    case User.preferences_changeset(user, params) |> Repo.update() do
       {:ok, _user} ->
         conn
         |> put_resp_content_type("application/json")

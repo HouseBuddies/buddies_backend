@@ -30,6 +30,23 @@ defmodule BuddiesBackend.Repo.Seeds.Accounts do
 
       case User.registration_changeset(%User{}, attrs) |> Repo.insert() do
         {:ok, user} ->
+          interests =
+            %{
+              gender: [:male, :female, :non_binary] |> Enum.random(),
+              occupation: [:student, :full_time, :part_time, :freelance, :unemployed, :retired] |> Enum.random(),
+              work_schedule: [:remote, :on_site, :day_shift, :night_shift, :weekends, :rotating] |> Enum.random(),
+              desired_cleanliness: Enum.random(1..5),
+              noise_tolerance: Enum.random(1..5),
+              sleep_schedule: [:early_bird, :night_owl, :regular, :variable] |> Enum.random(),
+              smoker: Enum.random([true, false]),
+              alcohol: [:never, :occasional, :regular] |> Enum.random(),
+              visitors: Enum.random(1..5),
+              max_rent: Enum.random(400..1500),
+              location: ["Braga", "Porto", "Lisboa", "Coimbra", "Aveiro"] |> Enum.random(),
+            }
+
+          User.preferences_changeset(user, interests) |> Repo.update()
+
           Mix.shell().info("Created user: #{user.name} (#{user.email})")
         {:error, changeset} ->
           Mix.shell().error(Kernel.inspect(changeset.errors))

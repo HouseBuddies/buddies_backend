@@ -4,19 +4,25 @@ defmodule BuddiesBackend.Houses do
   """
 
   import Ecto.Query, warn: false
-  alias BuddiesBackend.Repo
-
-  alias BuddiesBackend.Houses.House
-  alias BuddiesBackend.Houses.UserHouse
+  alias BuddiesBackend.Accounts
   alias BuddiesBackend.Accounts.User
-  alias BuddiesBackend.Managements
   alias BuddiesBackend.BillSpliters
   alias BuddiesBackend.Calendars
+  alias BuddiesBackend.Houses
+  alias BuddiesBackend.Houses.House
+  alias BuddiesBackend.Houses.UserHouse
+  alias BuddiesBackend.Managements
+  alias BuddiesBackend.Managements.BillSpliter
+  alias BuddiesBackend.Managements.Calendar
+  alias BuddiesBackend.Managements.Management
+  alias BuddiesBackend.Managements.ShoppingCart
+  alias BuddiesBackend.Managements.TodoList
+  alias BuddiesBackend.Repo
   alias BuddiesBackend.ShoppingCarts
-  alias BuddiesBackend.TodoLists
   alias BuddiesBackend.Subscriptions.Subscription
+  alias BuddiesBackend.TodoLists
 
-  alias BuddiesBackend.Managements.{Management, TodoList, BillSpliter, Calendar, ShoppingCart}
+
 
   @doc """
   Returns the list of houses.
@@ -346,7 +352,6 @@ defmodule BuddiesBackend.Houses do
   end
 
   def get_user_houses!(user_id) do
-    IO.inspect(user_id, label: "user_id")
     from(uh in UserHouse,
       where: uh.user_id == ^user_id and uh.type in [:owner, :resident],
       join: u in assoc(uh, :user),
@@ -355,6 +360,50 @@ defmodule BuddiesBackend.Houses do
       select: {h, u, uh}
     )
     |> Repo.all()
-    |> IO.inspect(label: "user_houses")
+  end
+
+  def list_house_residents(house_id) do
+    from(uh in UserHouse,
+      where: uh.house_id == ^house_id and uh.type == :resident,
+      join: u in assoc(uh, :user),
+      preload: [user: u]
+    )
+    |> Repo.all()
+    |> Enum.map(fn uh -> uh.user end)
+  end
+
+  def fetch_house_owner(house) do
+    owner = get_house_owner(house.id)
+
+    house
+    |> Map.put(:owner, owner.user)
+  end
+
+  def list_higher_ranking_houses(user_id, location) do
+    user = Accounts.get_user!(user_id)
+    max_rent = user.max_rent
+
+    # Get all houses where the address contains the location string, case-insensitive
+    houses = Repo.all(
+      from h in House,
+        where: ilike(h.address, ^"%#{location}%")
+        and h.max_rent <= ^max_rent
+    )
+
+    house_scores =
+      Enum.map(houses, fn house ->
+        residents = list_house_residents(house.id)
+
+        scores =
+          Enum.map(residents, fn res ->
+            Accounts.similarity_score(user, res)
+          end)
+
+        avg_score = if length(scores) > 0, do: Enum.sum(scores) / length(scores), else: 0
+
+        %{house: {house, get_house_owner(house.id).user, nil}, score: avg_score}
+      end)
+
+    Enum.sort_by(house_scores, & &1.score, :desc)
   end
 end

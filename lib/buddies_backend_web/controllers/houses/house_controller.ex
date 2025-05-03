@@ -75,4 +75,10 @@ defmodule BuddiesBackendWeb.HouseController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def list_according_user(conn, params) do
+    user_id = conn.assigns[:current_user].id
+    location = Map.get(params, "location")
+    render(conn, :index, houses: Houses.list_higher_ranking_houses(user_id, location) |> Enum.map(& &1.house) |> Enum.take(40))
+  end
 end

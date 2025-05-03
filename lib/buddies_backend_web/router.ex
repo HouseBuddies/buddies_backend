@@ -30,6 +30,7 @@ defmodule BuddiesBackendWeb.Router do
     scope "/houses" do
       get "/", HouseController, :index
       post "/", HouseController, :create
+      get "/ranked", HouseController, :list_according_user
       get "/:id", HouseController, :show
       put "/:id", HouseController, :update
       delete "/:id", HouseController, :delete

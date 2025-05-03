@@ -66,7 +66,7 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
       end
     end
 
-    #seed_user_houses()
+    seed_user_houses()
   end
 
   def seed_user_houses do

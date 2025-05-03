@@ -389,4 +389,33 @@ defmodule BuddiesBackend.Accounts do
     User
     |> Repo.all()
   end
+
+  def similarity_score(u1, u2) do
+    weights = %{
+      age: 0.15,
+      gender: 0.1,
+      occupation: 0.1,
+      work_schedule: 0.1,
+      desired_cleanliness: 0.15,
+      noise_tolerance: 0.15,
+      sleep_schedule: 0.1,
+      smoker: 0.05,
+      alcohol: 0.05,
+      visitors: 0.05,
+    }
+
+    fn_eq = fn v1, v2 -> if v1 == v2, do: 1, else: 0 end
+    fn_diff = fn v1, v2, max_d -> 1 - min(abs(v1 - v2) / max_d, 1) end
+
+    weights.age * fn_diff.(u1.age, u2.age, 20) +
+    weights.gender * fn_eq.(u1.gender, u2.gender) +
+    weights.occupation * fn_eq.(u1.occupation, u2.occupation) +
+    weights.work_schedule * fn_eq.(u1.work_schedule, u2.work_schedule) +
+    weights.desired_cleanliness * fn_diff.(u1.desired_cleanliness, u2.desired_cleanliness, 4) +
+    weights.noise_tolerance * fn_diff.(u1.noise_tolerance, u2.noise_tolerance, 4) +
+    weights.sleep_schedule * fn_eq.(u1.sleep_schedule, u2.sleep_schedule) +
+    weights.smoker * fn_eq.(u1.smoker, u2.smoker) +
+    weights.alcohol * fn_eq.(u1.alcohol, u2.alcohol) +
+    weights.visitors * fn_diff.(u1.visitors, u2.visitors, 10)
+  end
 end

@@ -56,6 +56,32 @@ defmodule BuddiesBackendWeb.HouseJSON do
     }
   end
 
+  defp data({%House{} = house, %User{} = user, nil}) do
+    %{
+      id: house.id,
+      image: house.image,
+      min_rent: house.min_rent,
+      max_rent: house.max_rent,
+      rooms: house.rooms,
+      available_date: house.available_date,
+      address: house.address,
+      max_residents: house.max_residents,
+      tags: house.tags,
+      created_at: house.inserted_at,
+      owner: %{
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        age: user.age,
+        photo: user.photo,
+        location: user.location,
+        confirmed_at: user.confirmed_at,
+        first_time_login: user.first_time_login
+      },
+      subscription: nil
+    }
+  end
+
   defp data({%House{} = house, %User{} = user}) do
     %{
       id: house.id,

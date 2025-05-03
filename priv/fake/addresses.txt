@@ -21,7 +21,7 @@ Rua da Liberdade 45, 1250-096 Lisboa, Portugal
 Avenida dos Aliados 210, 4000-065 Porto, Portugal
 Rua de Santa Catarina 123, 4000-447 Porto, Portugal
 Avenida da Liberdade 250, 1250-149 Lisboa, Portugal
-Rua do Carmo 88, 1200-094 Lisboa, Portuga
+Rua do Carmo 88, 1200-094 Lisboa, Portugal
 Rua do Arco 80-2 Esq., 1234-567 Lisboa, Portugal
 Rua Fonte Taurina 10, 4050-265 Porto, Portugal
 Rua de São Cristóvão 15, 1100-177 Lisboa, Portugal
@@ -38,7 +38,8 @@ Rua da Constituição 300, 4200-192 Porto, Portugal
 Rua do Ouro 85, 1100-063 Lisboa, Portugal
 Rua de Santa Clara 50, 4000-442 Porto, Portugal
 Rua dos Douradores 110, 1100-207 Lisboa, Portugal
-Rua de Miguel Bombarda 150, 4050-381 Porto, PortugalRua da Prata 200, 1100-423 Lisboa, Portugal
+Rua de Miguel Bombarda 150, 4050-381 Porto, Portugal
+Rua da Prata 200, 1100-423 Lisboa, Portugal
 Rua de Sá da Bandeira 120, 4000-427 Porto, Portugal
 Rua de São Nicolau 75, 1100-549 Lisboa, Portugal
 Rua de Passos Manuel 137, 4000-385 Porto, Portugal

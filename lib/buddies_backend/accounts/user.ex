@@ -63,8 +63,8 @@ defmodule BuddiesBackend.Accounts.User do
 
   def preferences_changeset(user, attrs) do
     user
-    |> cast(attrs, [:gender, :occupation, :max_rent, :work_schedule, :desired_cleanliness, :noise_tolerance, :smoker, :alcohol, :visitors, :location])
-    |> validate_required([:gender, :occupation, :max_rent, :work_schedule, :desired_cleanliness, :noise_tolerance, :smoker, :alcohol, :visitors, :location])
+    |> cast(attrs, [:gender, :occupation, :max_rent, :work_schedule, :desired_cleanliness, :sleep_schedule, :noise_tolerance, :smoker, :alcohol, :visitors, :location])
+    |> validate_required([:gender, :occupation, :max_rent, :work_schedule, :desired_cleanliness, :sleep_schedule, :noise_tolerance, :smoker, :alcohol, :visitors, :location])
   end
 
   def login_status_changeset(user, attrs) do
