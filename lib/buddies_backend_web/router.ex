@@ -36,6 +36,8 @@ defmodule BuddiesBackendWeb.Router do
       get "/:id/residents", UserHouseController, :show_house_residents
       get "/:id/owner", UserHouseController, :show_house_owner
       get "/:id/matches", UserHouseController, :show_house_matches
+      get "/:id/score", HouseController, :get_house_match_score
+      get "/:id/favorites", UserHouseController, :show_house_favorites
       post "/:house_id/favorite", UserHouseController, :favorite_house
       delete "/:house_id/favorite", UserHouseController, :remove_favorite_house
       get "/:user_id/favorite_houses", UserHouseController, :get_user_favorite_houses

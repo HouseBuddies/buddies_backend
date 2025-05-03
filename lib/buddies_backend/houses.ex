@@ -408,4 +408,21 @@ defmodule BuddiesBackend.Houses do
 
     Enum.sort_by(house_scores, & &1.score, :desc)
   end
+
+  def get_match_score(user_id, house_id) do
+    user = Accounts.get_user!(user_id)
+    {house, _, _} = get_house!(house_id)
+
+    # Get all residents of the house
+    residents = list_house_residents(house.id)
+
+    # Calculate the similarity score for each resident
+    scores =
+      Enum.map(residents, fn res ->
+        Accounts.similarity_score(user, res)
+      end)
+
+    # Calculate the average score
+    if length(scores) > 0, do: Enum.sum(scores) / length(scores), else: 0
+  end
 end

@@ -89,7 +89,7 @@ defmodule BuddiesBackend.Repo.Seeds.Houses do
           :ok
       end
 
-      for user <- Enum.take(users, 5) do
+      for user <- Enum.shuffle(users) |> Enum.take(5) do
         attrs = %{
           "user_id" => user.id,
           "house_id" => house.id,

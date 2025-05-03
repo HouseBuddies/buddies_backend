@@ -81,4 +81,13 @@ defmodule BuddiesBackendWeb.HouseController do
     location = Map.get(params, "location")
     render(conn, :index, houses: Houses.list_higher_ranking_houses(user_id, location) |> Enum.map(& &1.house) |> Enum.take(40))
   end
+
+  def get_house_match_score(conn, %{"id" => id}) do
+    user_id = conn.assigns[:current_user].id
+    {house, _, _} = Houses.get_house!(id)
+    match_score = Houses.get_match_score(user_id, house |> Map.get(:id))
+
+    conn
+    |> send_resp(:ok, Jason.encode!(%{match_score: match_score}))
+  end
 end
